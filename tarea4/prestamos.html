@@ -2,115 +2,159 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Préstamos - Banco Horizonte</title>
+
 <link rel="stylesheet" href="estilos.css">
 
-<script>
-
-function calcularPrestamo() {
-
-var monto = document.getElementById("monto").value;
-var tasa = document.getElementById("tasa").value;
-var anos = document.getElementById("anos").value;
-
-var meses = anos * 12;
-var interes = tasa / 100 / 12;
-
-var pago = (monto * interes) / (1 - Math.pow(1 + interes, -meses));
-
-document.getElementById("resultado").innerHTML =
-"Pago mensual aproximado: RD$ " + pago.toFixed(2);
-
-}
-
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
 <body>
 
+<div class="topbar">
+
+<span>USD Compra 58.80 | Venta 60.80</span>
+
+<span>Atención al cliente 24/7</span>
+
+</div>
+
 <header>
-<h1>Banco Horizonte</h1>
-<p>Tu futuro financiero comienza hoy</p>
-</header>
 
-<nav class="menu">
+<div class="logo">
 
-<ul>
+<i class="fa-solid fa-building-columns"></i>
+
+Banco Horizonte
+
+</div>
+
+<nav>
+
+<ul class="menu">
 
 <li><a href="index.html">Inicio</a></li>
 
-<li>
-<a href="#">Productos ▾</a>
-<ul class="submenu">
-<li><a href="cuentas.html">Cuentas</a></li>
-<li><a href="tarjetas.html">Tarjetas</a></li>
-<li><a href="prestamos.html">Préstamos</a></li>
-<li><a href="inversiones.html">Inversiones</a></li>
-</ul>
+<li class="dropdown">
+<a href="#">Productos</a>
+
+<div class="mega-menu">
+
+<div class="mega-column">
+<h4>Cuentas</h4>
+<a href="productos.html#cuentas">Cuenta de ahorro</a>
+<a href="productos.html#corriente">Cuenta corriente</a>
+</div>
+
+<div class="mega-column">
+<h4>Tarjetas</h4>
+<a href="productos.html#tarjetas">Tarjeta débito</a>
+<a href="productos.html#credito">Tarjeta crédito</a>
+</div>
+
+</div>
+
 </li>
 
-<li>
-<a href="#">Servicios ▾</a>
-<ul class="submenu">
-<li><a href="transferencias.html">Transferencias</a></li>
-<li><a href="pagos.html">Pagos</a></li>
-<li><a href="remesas.html">Remesas</a></li>
-</ul>
+<li class="dropdown">
+<a href="#">Servicios</a>
+
+<div class="mega-menu">
+
+<div class="mega-column">
+<h4>Transferencias</h4>
+<a href="servicios.html#transferencias">Locales</a>
+<a href="servicios.html#internacionales">Internacionales</a>
+</div>
+
+<div class="mega-column">
+<h4>Pagos</h4>
+<a href="servicios.html#pagos">Pago de servicios</a>
+</div>
+
+</div>
+
 </li>
+
+<li><a href="prestamos.html">Préstamos</a></li>
 
 <li><a href="sucursales.html">Sucursales</a></li>
+
 <li><a href="quienes.html">Quiénes Somos</a></li>
+
 <li><a href="contacto.html">Contacto</a></li>
 
 </ul>
 
 </nav>
 
-<section>
+</header>
 
-<h2>Préstamos Banco Horizonte</h2>
+<main>
 
-<p>
-En Banco Horizonte ofrecemos soluciones de financiamiento diseñadas para ayudarte
-a alcanzar tus metas personales y profesionales.
-</p>
+<h1>Préstamos</h1>
+
+<p>En Banco Horizonte ofrecemos diferentes opciones de financiamiento.</p>
 
 <h3>Tipos de préstamos</h3>
 
 <ul>
+
 <li>Préstamos personales</li>
+
 <li>Préstamos hipotecarios</li>
+
 <li>Préstamos para vehículos</li>
+
 <li>Préstamos empresariales</li>
+
 </ul>
 
-<hr>
+<h2>Calculadora de préstamo</h2>
 
-<h2>Calculadora de Préstamos</h2>
+<input type="number" id="monto" placeholder="Monto del préstamo">
 
-<p>Utilice nuestra calculadora para estimar su pago mensual.</p>
+<input type="number" id="tasa" placeholder="Tasa de interés %">
 
-<label>Monto del préstamo (RD$)</label><br>
-<input type="number" id="monto"><br><br>
+<input type="number" id="años" placeholder="Años">
 
-<label>Tasa de interés anual (%)</label><br>
-<input type="number" id="tasa"><br><br>
+<button onclick="calcular()">Calcular</button>
 
-<label>Años del préstamo</label><br>
-<input type="number" id="anos"><br><br>
+<p id="resultado"></p>
 
-<button onclick="calcularPrestamo()">Calcular</button>
-
-<h3 id="resultado"></h3>
-
-</section>
+</main>
 
 <footer>
+
 <p>Banco Horizonte © 2026</p>
+
 <p>Autor: Bryan Benitez Encarnacion</p>
+
 </footer>
 
+<script>
+
+function calcular(){
+
+let monto = document.getElementById("monto").value;
+
+let tasa = document.getElementById("tasa").value/100/12;
+
+let años = document.getElementById("años").value*12;
+
+let pago = (monto*tasa)/(1-Math.pow(1+tasa,-años));
+
+document.getElementById("resultado").innerHTML="Pago mensual aproximado: $" + pago.toFixed(2);
+
+}
+
+</script>
+
 </body>
+
 </html>
