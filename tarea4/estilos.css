@@ -15,7 +15,7 @@ font-family:Arial, Helvetica, sans-serif;
 
 background:#0b3d91;
 color:white;
-padding:8px;
+padding:8px 20px;
 display:flex;
 justify-content:space-between;
 font-size:14px;
@@ -152,8 +152,8 @@ height:400px;
 .slides{
 
 display:flex;
-width:300%;
-animation:slide 15s infinite;
+width:200%;
+animation:slide 10s infinite;
 
 }
 
@@ -167,16 +167,17 @@ object-fit:cover;
 
 
 
+/* ANIMACION SLIDER (2 IMAGENES) */
+
 @keyframes slide{
 
 0%{margin-left:0;}
-30%{margin-left:0;}
+45%{margin-left:0;}
 
-35%{margin-left:-100%;}
-65%{margin-left:-100%;}
+50%{margin-left:-100%;}
+95%{margin-left:-100%;}
 
-70%{margin-left:-200%;}
-100%{margin-left:-200%;}
+100%{margin-left:0;}
 
 }
 
