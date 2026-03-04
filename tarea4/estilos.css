@@ -12,14 +12,12 @@ font-family:Arial, Helvetica, sans-serif;
 /* BARRA SUPERIOR */
 
 .topbar{
-
 background:#0b3d91;
 color:white;
 padding:8px 20px;
 display:flex;
 justify-content:space-between;
 font-size:14px;
-
 }
 
 
@@ -27,14 +25,12 @@ font-size:14px;
 /* HEADER */
 
 header{
-
 background:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:15px 40px;
 box-shadow:0 2px 5px rgba(0,0,0,0.1);
-
 }
 
 
@@ -42,17 +38,13 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
 /* LOGO */
 
 .logo{
-
 font-size:24px;
 font-weight:bold;
 color:#0b3d91;
-
 }
 
 .logo i{
-
 margin-right:10px;
-
 }
 
 
@@ -60,114 +52,101 @@ margin-right:10px;
 /* MENU PRINCIPAL */
 
 .menu-principal{
-
 background:#0b3d91;
-
 }
 
 .menu{
-
 display:flex;
 list-style:none;
 justify-content:center;
-
 }
 
 .menu li{
-
 position:relative;
-
 }
 
 .menu li a{
-
 display:block;
 padding:15px 25px;
 color:white;
 text-decoration:none;
 font-weight:600;
 transition:background 0.3s;
-
 }
 
 .menu li a:hover{
-
 background:#092f6a;
-
 }
 
 
 
-/* SUBMENU */
+/* ===== MEGA MENU ===== */
 
 .submenu{
-
 display:none;
 position:absolute;
 top:100%;
 left:0;
 background:white;
 list-style:none;
-min-width:200px;
-box-shadow:0px 5px 10px rgba(0,0,0,0.2);
-z-index:1000;
+min-width:220px;
+box-shadow:0px 5px 15px rgba(0,0,0,0.2);
+border-radius:4px;
+overflow:hidden;
+z-index:999;
+}
 
+/* quitar puntos negros */
+
+.submenu li{
+list-style:none;
 }
 
 .submenu li a{
-
-color:#333;
+display:block;
 padding:12px 20px;
-
+color:#333;
+text-decoration:none;
+transition:background 0.2s;
 }
 
 .submenu li a:hover{
-
 background:#f2f2f2;
-
 }
 
 
 
-/* MOSTRAR SUBMENU */
+/* mostrar submenu */
 
 .dropdown:hover .submenu{
-
 display:block;
-
 }
 
 
 
-/* SLIDER */
+/* ===== SLIDER ===== */
 
 .slider{
-
 width:100%;
 overflow:hidden;
 height:400px;
-
 }
 
 .slides{
-
 display:flex;
 width:200%;
 animation:slide 10s infinite;
-
 }
 
 .slides img{
-
 width:100%;
 height:400px;
 object-fit:cover;
-
 }
 
 
 
-/* ANIMACION SLIDER (2 IMAGENES) */
+/* ANIMACION SLIDER */
 
 @keyframes slide{
 
@@ -183,81 +162,57 @@ object-fit:cover;
 
 
 
-/* CONTENIDO PRINCIPAL */
+/* CONTENIDO */
 
 main{
-
 padding:40px;
 text-align:center;
-
 }
 
 main h2{
-
 color:#0b3d91;
 margin-bottom:20px;
-
 }
 
 main p{
-
 max-width:800px;
 margin:auto;
 margin-bottom:40px;
-
 }
 
 
 
-/* TARJETAS DE SERVICIOS */
+/* TARJETAS */
 
 .servicios{
-
 display:flex;
 justify-content:center;
 gap:30px;
 flex-wrap:wrap;
-
 }
 
-
-
 .card{
-
 background:white;
 padding:25px;
 width:220px;
 border-radius:8px;
 box-shadow:0 3px 10px rgba(0,0,0,0.15);
 transition:transform 0.3s, box-shadow 0.3s;
-
 }
-
-
 
 .card:hover{
-
 transform:translateY(-8px);
 box-shadow:0 8px 20px rgba(0,0,0,0.2);
-
 }
 
-
-
 .card i{
-
 font-size:40px;
 color:#0b3d91;
 margin-bottom:15px;
-
 }
 
-
-
 .card h3{
-
 margin-bottom:10px;
-
 }
 
 
@@ -265,11 +220,9 @@ margin-bottom:10px;
 /* FOOTER */
 
 footer{
-
 background:#0b3d91;
 color:white;
 text-align:center;
 padding:25px;
 margin-top:40px;
-
 }
