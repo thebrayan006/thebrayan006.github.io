@@ -48,7 +48,6 @@ gap:30px;
 
 .menu li{
 position:relative;
-list-style:none;
 }
 
 .menu a{
@@ -116,17 +115,17 @@ color:#0b3d6d;
 width:100%;
 height:420px;
 overflow:hidden;
-position:relative;
 }
 
 .slides{
 display:flex;
 width:200%;
+height:420px;
 animation:slide 10s infinite;
 }
 
 .slides img{
-width:100%;
+width:50%;
 height:420px;
 object-fit:cover;
 }
@@ -138,8 +137,8 @@ object-fit:cover;
 0%{transform:translateX(0);}
 40%{transform:translateX(0);}
 
-50%{transform:translateX(-100%);}
-90%{transform:translateX(-100%);}
+50%{transform:translateX(-50%);}
+90%{transform:translateX(-50%);}
 
 100%{transform:translateX(0);}
 
