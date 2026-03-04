@@ -1,38 +1,55 @@
 body{
 
-font-family:Arial, sans-serif;
+font-family:Arial;
 margin:0;
 background:#f4f6f9;
 
 }
+
+
+/* BARRA SUPERIOR */
+
+.topbar{
+
+background:#002f5b;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:8px 20px;
+font-size:14px;
+
+}
+
 
 /* HEADER */
 
 header{
 
 background:#0d4c7c;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 30px;
 color:white;
-text-align:center;
-padding:15px;
 
 }
 
-header h1{
+.logo{
 
-margin:0;
+font-size:22px;
+font-weight:bold;
 
 }
+
 
 /* MENU */
 
 .menu ul{
 
 list-style:none;
+display:flex;
 margin:0;
 padding:0;
-display:flex;
-justify-content:center;
-background:#0b3e67;
 
 }
 
@@ -58,6 +75,7 @@ background:#0d5a95;
 
 }
 
+
 /* SUBMENU */
 
 .submenu{
@@ -68,7 +86,6 @@ top:100%;
 left:0;
 background:#0b3e67;
 min-width:180px;
-flex-direction:column;
 box-shadow:0px 5px 10px rgba(0,0,0,0.2);
 
 }
@@ -81,7 +98,7 @@ width:100%;
 
 .submenu a{
 
-padding:12px 15px;
+padding:12px;
 
 }
 
@@ -91,52 +108,101 @@ display:block;
 
 }
 
-/* BANNER */
 
-.banner{
+
+/* SLIDER */
+
+.slider{
 
 width:100%;
-max-height:300px;
+overflow:hidden;
+height:350px;
+
+}
+
+.slides{
+
+display:flex;
+width:300%;
+animation:slide 12s infinite;
+
+}
+
+.slides img{
+
+width:100%;
 object-fit:cover;
 
 }
+
+@keyframes slide{
+
+0%{margin-left:0;}
+
+33%{margin-left:0;}
+
+38%{margin-left:-100%;}
+
+66%{margin-left:-100%;}
+
+71%{margin-left:-200%;}
+
+100%{margin-left:-200%;}
+
+}
+
+
 
 /* CONTENIDO */
 
 main{
 
-padding:30px;
 text-align:center;
+padding:40px;
 
 }
+
+
+
+/* TARJETAS */
 
 .servicios{
 
 display:flex;
 justify-content:center;
-gap:20px;
+gap:30px;
+flex-wrap:wrap;
 margin-top:30px;
 
 }
 
-/* TARJETAS */
-
 .card{
 
 background:white;
-padding:20px;
-width:250px;
-border-radius:10px;
-box-shadow:0px 4px 10px rgba(0,0,0,0.1);
+padding:30px;
+width:220px;
+border-radius:12px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.1);
 transition:0.3s;
+
+}
+
+.card i{
+
+font-size:40px;
+color:#0d4c7c;
+margin-bottom:10px;
 
 }
 
 .card:hover{
 
-transform:translateY(-5px);
+transform:translateY(-8px);
+box-shadow:0px 8px 20px rgba(0,0,0,0.15);
 
 }
+
+
 
 /* FOOTER */
 
@@ -146,6 +212,6 @@ margin-top:40px;
 background:#0d4c7c;
 color:white;
 text-align:center;
-padding:15px;
+padding:20px;
 
 }
