@@ -1,128 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
-<title>Banco Horizonte</title>
+<title>Tienda Gamer</title>
+
 <link rel="stylesheet" href="estilos.css">
+
+<!-- Iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 <body>
 
 <header>
 
-<h1>Banco Horizonte</h1>
-<p>Tu futuro financiero comienza hoy</p>
+<h1 class="logo">🎮 GamerShop</h1>
+
+<nav>
+
+<a href="index.html">
+<i class="fa-solid fa-house"></i> Inicio
+</a>
+
+<a href="productos.html">
+<i class="fa-solid fa-gamepad"></i> Productos
+</a>
+
+<a href="carrito.html">
+<i class="fa-solid fa-cart-shopping"></i> Carrito
+</a>
+
+</nav>
 
 </header>
 
 
-<nav class="menu">
+<main>
 
-<ul>
+<section class="hero">
 
-<li><a href="index.html">Inicio</a></li>
+<h2>Bienvenido a GamerShop</h2>
 
-<li>
-<a href="#">Productos ▾</a>
-<ul class="submenu">
-<li><a href="productos.html">Productos</a></li>
-<li><a href="prestamos.html">Préstamos</a></li>
-<li><a href="servicios.html">Servicios</a></li>
-</ul>
-</li>
+<p>Encuentra los mejores videojuegos al mejor precio</p>
 
-<li><a href="sucursales.html">Sucursales</a></li>
-
-<li><a href="quienes.html">Quiénes Somos</a></li>
-
-<li><a href="contacto.html">Contacto</a></li>
-
-</ul>
-
-</nav>
-
-
-<section class="banner">
-
-<h2>Bienvenido a Banco Horizonte</h2>
-
-<p>Soluciones financieras seguras para tu futuro</p>
-
-<a class="boton" href="productos.html">Ver Productos</a>
+<a href="productos.html" class="boton">Ver Productos</a>
 
 </section>
 
-
-<div class="slider">
-
-<img id="slide" src="https://images.unsplash.com/photo-1554224155-1696413565d3">
-
-</div>
-
-
-<section class="contenido">
-
-<h2>Nuestros Servicios</h2>
-
-<div class="tarjetas">
-
-<div class="card">
-<h3>Cuentas Bancarias</h3>
-<p>Ahorra y administra tu dinero de forma segura.</p>
-</div>
-
-<div class="card">
-<h3>Préstamos</h3>
-<p>Financiamiento para tus proyectos personales o empresariales.</p>
-</div>
-
-<div class="card">
-<h3>Tarjetas</h3>
-<p>Realiza compras nacionales e internacionales.</p>
-</div>
-
-</div>
-
-</section>
-
-
-<footer>
-
-<p>Banco Horizonte © 2026</p>
-<p>Autor: Bryan Benitez Encarnacion</p>
-
-</footer>
-
-
-<script>
-
-var imagenes = [
-
-"https://images.unsplash.com/photo-1554224155-1696413565d3",
-"https://images.unsplash.com/photo-1605902711622-cfb43c4437b5",
-"https://images.unsplash.com/photo-1526304640581-d334cdbbf45e"
-
-];
-
-var i = 0;
-
-function cambiarImagen(){
-
-i++;
-
-if(i >= imagenes.length){
-i = 0;
-}
-
-document.getElementById("slide").src = imagenes[i];
-
-}
-
-setInterval(cambiarImagen,3000);
-
-</script>
-
+</main>
 
 </body>
 </html>
