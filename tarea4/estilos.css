@@ -1,96 +1,169 @@
 body{
-font-family: Arial, Helvetica, sans-serif;
+
+font-family:Arial, Helvetica, sans-serif;
 margin:0;
 background:#f4f4f4;
+
 }
+
 
 header{
-background:#004080;
+
+background:#003366;
 color:white;
 text-align:center;
 padding:20px;
+
 }
 
-nav{
-background:#0066cc;
-}
 
-nav ul{
-list-style:none;
-margin:0;
-padding:0;
-display:flex;
-justify-content:center;
-}
+/* MENU */
 
-nav li{
-margin:0;
-}
-
-nav a{
-display:block;
-padding:15px 20px;
-color:white;
-text-decoration:none;
-font-weight:bold;
-}
-
-nav a:hover{
-background:#004080;
-}
-
-section{
-padding:20px;
-background:white;
-margin:20px;
-border-radius:5px;
-}
-
-footer{
-text-align:center;
-background:#004080;
-color:white;
-padding:15px;
-margin-top:20px;
-}
 .menu ul{
+
 list-style:none;
 margin:0;
 padding:0;
 background:#004a80;
 display:flex;
+
 }
 
 .menu ul li{
+
 position:relative;
+
 }
 
 .menu ul li a{
+
 display:block;
 padding:15px 20px;
 color:white;
 text-decoration:none;
 font-weight:bold;
+
 }
 
 .menu ul li:hover{
+
 background:#0066aa;
+
 }
 
+
+/* SUBMENU */
+
 .submenu{
+
 display:none;
 position:absolute;
-background:#ffffff;
+background:white;
 top:50px;
 min-width:200px;
 box-shadow:0px 5px 10px rgba(0,0,0,0.2);
+
 }
 
 .submenu li a{
+
 color:#333;
 padding:10px;
+
 }
 
 .menu ul li:hover .submenu{
+
 display:block;
+
+}
+
+
+/* BANNER */
+
+.banner{
+
+background-image:url("https://images.unsplash.com/photo-1565514158740-064f34bd6cfd");
+background-size:cover;
+background-position:center;
+height:400px;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+color:white;
+text-align:center;
+
+}
+
+.banner h2{
+
+font-size:40px;
+
+}
+
+.boton{
+
+background:#ff6600;
+padding:12px 25px;
+color:white;
+text-decoration:none;
+border-radius:5px;
+margin-top:10px;
+
+}
+
+
+/* SLIDER */
+
+.slider img{
+
+width:100%;
+height:400px;
+object-fit:cover;
+
+}
+
+
+/* CONTENIDO */
+
+.contenido{
+
+padding:40px;
+text-align:center;
+
+}
+
+
+.tarjetas{
+
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+
+}
+
+
+.card{
+
+background:white;
+padding:20px;
+width:250px;
+box-shadow:0px 5px 10px rgba(0,0,0,0.1);
+border-radius:5px;
+
+}
+
+
+footer{
+
+background:#003366;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
+
 }
