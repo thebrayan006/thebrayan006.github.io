@@ -78,9 +78,74 @@ transition:background 0.3s;
 background:#092f6a;
 }
 
+/* ===== MEGA MENU ===== */
 
+.mega-menu{
+
+display:none;
+position:absolute;
+left:0;
+top:100%;
+width:600px;
+background:white;
+padding:25px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+border-radius:5px;
+
+display:flex;
+gap:40px;
+
+}
+
+.dropdown:hover .mega-menu{
+
+display:flex;
+
+}
+
+
+
+/* COLUMNAS */
+
+.mega-column{
+
+display:flex;
+flex-direction:column;
+
+}
+
+
+
+/* TITULOS */
+
+.mega-column h4{
+
+color:#0b3d91;
+margin-bottom:10px;
+
+}
+
+
+
+/* LINKS */
+
+.mega-column a{
+
+text-decoration:none;
+color:#333;
+padding:6px 0;
+transition:color 0.2s;
+
+}
+
+.mega-column a:hover{
+
+color:#0b3d91;
+
+}
 
 /* ===== MEGA MENU ===== */
+
 
 .submenu{
 display:none;
