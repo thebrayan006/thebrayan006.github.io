@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
-<title>Tienda Gamer</title>
+<title>Banco Horizonte</title>
 
 <link rel="stylesheet" href="estilos.css">
-
-<!-- Iconos -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
@@ -15,21 +13,44 @@
 
 <header>
 
-<h1 class="logo">🎮 GamerShop</h1>
+<h1>Banco Horizonte</h1>
 
-<nav>
+<nav class="menu">
 
-<a href="index.html">
-<i class="fa-solid fa-house"></i> Inicio
-</a>
+<ul>
 
-<a href="productos.html">
-<i class="fa-solid fa-gamepad"></i> Productos
-</a>
+<li><a href="index.html">Inicio</a></li>
 
-<a href="carrito.html">
-<i class="fa-solid fa-cart-shopping"></i> Carrito
-</a>
+<li class="dropdown">
+<a href="productos.html">Productos ▾</a>
+
+<ul class="submenu">
+<li><a href="productos.html#cuentas">Cuentas</a></li>
+<li><a href="productos.html#tarjetas">Tarjetas</a></li>
+</ul>
+
+</li>
+
+<li class="dropdown">
+<a href="servicios.html">Servicios ▾</a>
+
+<ul class="submenu">
+<li><a href="servicios.html#transferencias">Transferencias</a></li>
+<li><a href="servicios.html#pagos">Pagos</a></li>
+<li><a href="servicios.html#remesas">Remesas</a></li>
+</ul>
+
+</li>
+
+<li><a href="prestamos.html">Préstamos</a></li>
+
+<li><a href="sucursales.html">Sucursales</a></li>
+
+<li><a href="quienes.html">Quiénes Somos</a></li>
+
+<li><a href="contacto.html">Contacto</a></li>
+
+</ul>
 
 </nav>
 
@@ -38,17 +59,61 @@
 
 <main>
 
-<section class="hero">
+<img src="foto.jpeg" class="banner">
 
-<h2>Bienvenido a GamerShop</h2>
 
-<p>Encuentra los mejores videojuegos al mejor precio</p>
+<section>
 
-<a href="productos.html" class="boton">Ver Productos</a>
+<h2>Bienvenido al Banco Horizonte</h2>
+
+<p>
+
+En Banco Horizonte ofrecemos soluciones financieras modernas para ayudarte
+a alcanzar tus metas. Contamos con servicios digitales, cuentas de ahorro,
+tarjetas, préstamos y transferencias seguras.
+
+</p>
+
+</section>
+
+
+<section class="servicios">
+
+<div class="card">
+
+<h3>Cuentas Bancarias</h3>
+
+<p>Ahorra y administra tu dinero con nuestras cuentas seguras.</p>
+
+</div>
+
+<div class="card">
+
+<h3>Tarjetas</h3>
+
+<p>Tarjetas de crédito y débito con beneficios exclusivos.</p>
+
+</div>
+
+<div class="card">
+
+<h3>Préstamos</h3>
+
+<p>Financia tus proyectos personales o empresariales.</p>
+
+</div>
 
 </section>
 
 </main>
+
+
+<footer>
+
+<p>© 2026 Banco Horizonte - Todos los derechos reservados</p>
+
+</footer>
+
 
 </body>
 </html>
