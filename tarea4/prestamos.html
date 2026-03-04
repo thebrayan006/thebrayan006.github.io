@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>Préstamos - Banco Horizonte</title>
+<link rel="stylesheet" href="estilos.css">
+
+<script>
+
+function calcularPrestamo() {
+
+var monto = document.getElementById("monto").value;
+var tasa = document.getElementById("tasa").value;
+var anos = document.getElementById("anos").value;
+
+var meses = anos * 12;
+var interes = tasa / 100 / 12;
+
+var pago = (monto * interes) / (1 - Math.pow(1 + interes, -meses));
+
+document.getElementById("resultado").innerHTML =
+"Pago mensual aproximado: RD$ " + pago.toFixed(2);
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<header>
+<h1>Banco Horizonte</h1>
+<p>Tu futuro financiero comienza hoy</p>
+</header>
+
+<nav>
+<ul>
+<li><a href="index.html">Inicio</a></li>
+<li><a href="productos.html">Productos</a></li>
+<li><a href="servicios.html">Servicios</a></li>
+<li><a href="prestamos.html">Préstamos</a></li>
+<li><a href="sucursales.html">Sucursales</a></li>
+<li><a href="quienes.html">Quiénes Somos</a></li>
+<li><a href="contacto.html">Contacto</a></li>
+</ul>
+</nav>
+
+<section>
+
+<h2>Préstamos Banco Horizonte</h2>
+
+<p>
+En Banco Horizonte ofrecemos soluciones de financiamiento diseñadas para ayudarte
+a alcanzar tus metas personales y profesionales.
+</p>
+
+<h3>Tipos de préstamos</h3>
+
+<ul>
+<li>Préstamos personales</li>
+<li>Préstamos hipotecarios</li>
+<li>Préstamos para vehículos</li>
+<li>Préstamos empresariales</li>
+</ul>
+
+<hr>
+
+<h2>Calculadora de Préstamos</h2>
+
+<p>Utilice nuestra calculadora para estimar su pago mensual.</p>
+
+<label>Monto del préstamo (RD$)</label><br>
+<input type="number" id="monto"><br><br>
+
+<label>Tasa de interés anual (%)</label><br>
+<input type="number" id="tasa"><br><br>
+
+<label>Años del préstamo</label><br>
+<input type="number" id="anos"><br><br>
+
+<button onclick="calcularPrestamo()">Calcular</button>
+
+<h3 id="resultado"></h3>
+
+</section>
+
+<footer>
+<p>Banco Horizonte © 2026</p>
+<p>Autor: Bryan Benitez Encarnacion</p>
+</footer>
+
+</body>
+</html>
