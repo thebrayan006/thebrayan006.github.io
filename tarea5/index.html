@@ -11,65 +11,88 @@
 
 body{
 font-family: Arial, Helvetica, sans-serif;
-background: linear-gradient(135deg,#0a2a66,#0f4fa8);
+background: linear-gradient(135deg,#0f3c6e,#1e7ed0);
 height:100vh;
 display:flex;
-align-items:center;
 justify-content:center;
-color:white;
+align-items:center;
 margin:0;
 }
 
 .container{
 background:white;
-color:black;
 padding:40px;
 border-radius:10px;
-width:350px;
+width:400px;
 text-align:center;
-box-shadow:0px 5px 20px rgba(0,0,0,0.3);
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
 h1{
-margin-bottom:20px;
-color:#0a2a66;
+margin-bottom:10px;
+color:#0f3c6e;
+}
+
+p{
+color:#555;
+font-size:14px;
 }
 
 input{
 width:100%;
-padding:10px;
+padding:12px;
+margin-top:15px;
 font-size:18px;
-margin-top:10px;
+text-align:center;
+border:2px solid #ddd;
 border-radius:5px;
-border:1px solid #ccc;
+outline:none;
+transition:0.3s;
+}
+
+input:focus{
+border-color:#1e7ed0;
 }
 
 button{
 margin-top:20px;
-padding:10px;
-width:100%;
+padding:12px 25px;
 font-size:16px;
-background:#0a2a66;
-color:white;
 border:none;
 border-radius:5px;
+background:#1e7ed0;
+color:white;
 cursor:pointer;
+transition:0.3s;
 }
 
 button:hover{
-background:#0f4fa8;
+background:#0f3c6e;
+transform:scale(1.05);
 }
 
-#resultado{
+button:active{
+transform:scale(0.95);
+}
+
+.resultado{
 margin-top:20px;
-font-weight:bold;
 font-size:18px;
+font-weight:bold;
+}
+
+.correcta{
+color:green;
+}
+
+.incorrecta{
+color:red;
 }
 
 footer{
 margin-top:20px;
-font-size:14px;
-color:gray;
+font-size:12px;
+color:#888;
 }
 
 </style>
@@ -82,13 +105,13 @@ color:gray;
 
 <h1>Validador de Cédula</h1>
 
-<p>Ingrese su número de cédula</p>
+<p>Ingrese una cédula dominicana para verificar si es válida</p>
 
-<input type="text" id="cedula" placeholder="00112345678">
+<input type="text" id="cedula" placeholder="00000000000" maxlength="11">
 
 <button onclick="validarCedula()">Validar</button>
 
-<div id="resultado"></div>
+<div id="resultado" class="resultado"></div>
 
 <footer>
 Autor: Bryan Benitez Encarnacion
@@ -96,17 +119,48 @@ Autor: Bryan Benitez Encarnacion
 
 </div>
 
-
 <script>
+
+const inputCedula = document.getElementById("cedula");
+
+inputCedula.addEventListener("input", function(){
+validarCedulaTiempoReal();
+});
 
 function validarCedula(){
 
 let cedula = document.getElementById("cedula").value;
-cedula = cedula.replace(/-/g,'');
 
-if(cedula.length != 11 || isNaN(cedula)){
-document.getElementById("resultado").innerHTML="Formato de cédula inválido";
-return;
+if(validar(cedula)){
+mostrarResultado("CÉDULA CORRECTA",true);
+}else{
+mostrarResultado("CÉDULA INCORRECTA",false);
+}
+
+}
+
+function validarCedulaTiempoReal(){
+
+let cedula = document.getElementById("cedula").value;
+
+if(cedula.length === 11){
+
+if(validar(cedula)){
+mostrarResultado("CÉDULA CORRECTA",true);
+}else{
+mostrarResultado("CÉDULA INCORRECTA",false);
+}
+
+}else{
+document.getElementById("resultado").innerHTML="";
+}
+
+}
+
+function validar(cedula){
+
+if(!/^[0-9]{11}$/.test(cedula)){
+return false;
 }
 
 let suma = 0;
@@ -115,11 +169,13 @@ for(let i=0;i<10;i++){
 
 let num = parseInt(cedula.charAt(i));
 
-if(i % 2 != 0){
+if(i % 2 === 0){
+num = num * 1;
+}else{
 num = num * 2;
 
 if(num > 9){
-num = num - 9;
+num = Math.floor(num / 10) + (num % 10);
 }
 
 }
@@ -130,12 +186,20 @@ suma += num;
 
 let digito = (10 - (suma % 10)) % 10;
 
-if(digito == cedula.charAt(10)){
-document.getElementById("resultado").style.color="green";
-document.getElementById("resultado").innerHTML="CÉDULA ES CORRECTA";
+return digito === parseInt(cedula.charAt(10));
+
+}
+
+function mostrarResultado(texto,correcto){
+
+let resultado = document.getElementById("resultado");
+
+resultado.innerHTML = texto;
+
+if(correcto){
+resultado.className = "resultado correcta";
 }else{
-document.getElementById("resultado").style.color="red";
-document.getElementById("resultado").innerHTML="CÉDULA ES INCORRECTA";
+resultado.className = "resultado incorrecta";
 }
 
 }
