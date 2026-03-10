@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Validador de Cédula Dominicana</title>
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background: linear-gradient(135deg,#0a2a66,#0f4fa8);
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+margin:0;
+}
+
+.container{
+background:white;
+color:black;
+padding:40px;
+border-radius:10px;
+width:350px;
+text-align:center;
+box-shadow:0px 5px 20px rgba(0,0,0,0.3);
+}
+
+h1{
+margin-bottom:20px;
+color:#0a2a66;
+}
+
+input{
+width:100%;
+padding:10px;
+font-size:18px;
+margin-top:10px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+margin-top:20px;
+padding:10px;
+width:100%;
+font-size:16px;
+background:#0a2a66;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0f4fa8;
+}
+
+#resultado{
+margin-top:20px;
+font-weight:bold;
+font-size:18px;
+}
+
+footer{
+margin-top:20px;
+font-size:14px;
+color:gray;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Validador de Cédula</h1>
+
+<p>Ingrese su número de cédula</p>
+
+<input type="text" id="cedula" placeholder="00112345678">
+
+<button onclick="validarCedula()">Validar</button>
+
+<div id="resultado"></div>
+
+<footer>
+Autor: Bryan Benitez Encarnacion
+</footer>
+
+</div>
+
+
+<script>
+
+function validarCedula(){
+
+let cedula = document.getElementById("cedula").value;
+cedula = cedula.replace(/-/g,'');
+
+if(cedula.length != 11 || isNaN(cedula)){
+document.getElementById("resultado").innerHTML="Formato de cédula inválido";
+return;
+}
+
+let suma = 0;
+
+for(let i=0;i<10;i++){
+
+let num = parseInt(cedula.charAt(i));
+
+if(i % 2 != 0){
+num = num * 2;
+
+if(num > 9){
+num = num - 9;
+}
+
+}
+
+suma += num;
+
+}
+
+let digito = (10 - (suma % 10)) % 10;
+
+if(digito == cedula.charAt(10)){
+document.getElementById("resultado").style.color="green";
+document.getElementById("resultado").innerHTML="CÉDULA ES CORRECTA";
+}else{
+document.getElementById("resultado").style.color="red";
+document.getElementById("resultado").innerHTML="CÉDULA ES INCORRECTA";
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
