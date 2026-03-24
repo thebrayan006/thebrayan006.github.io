@@ -10,11 +10,9 @@
 <style>
 
 .admin-top{
-
 display:flex;
 justify-content:space-between;
 margin-bottom:20px;
-
 }
 
 button{
@@ -40,6 +38,12 @@ padding:10px;
 border:1px solid #ccc;
 }
 
+input,select{
+padding:6px;
+margin-bottom:10px;
+width:200px;
+}
+
 </style>
 
 </head>
@@ -51,28 +55,33 @@ border:1px solid #ccc;
 <div class="admin-top">
 
 <div>
-
 <button onclick="window.location.href='index.html'">
 Inicio
 </button>
-
 </div>
 
 <div>
-
 <button onclick="cerrarSesion()">
 Cerrar Sesión
 </button>
-
 </div>
 
 </div>
 
 <h2>Administrador del Menú</h2>
 
-<input id="nombre" placeholder="Nombre"><br><br>
+<input id="nombre" placeholder="Nombre del menú"><br>
 
-<input id="enlace" placeholder="Contenido"><br><br>
+<input id="contenido" placeholder="Contenido"><br>
+
+<label>¿Tiene Submenú?</label><br>
+
+<select id="submenu">
+<option value="no">No</option>
+<option value="si">Sí</option>
+</select>
+
+<br><br>
 
 <button onclick="agregar()">Agregar</button>
 
@@ -83,12 +92,11 @@ Cerrar Sesión
 <thead>
 
 <tr>
-
 <th>ID</th>
 <th>Nombre</th>
 <th>Contenido</th>
+<th>Submenu</th>
 <th>Acciones</th>
-
 </tr>
 
 </thead>
@@ -99,11 +107,17 @@ Cerrar Sesión
 
 </div>
 
-<script src="script.js"></script>
-
 <script>
 
-let tabla=document.getElementById("tablaMenu")
+let tabla = document.getElementById("tablaMenu")
+
+let menuData = JSON.parse(localStorage.getItem("menuData")) || []
+
+function guardar(){
+
+localStorage.setItem("menuData",JSON.stringify(menuData))
+
+}
 
 function renderTabla(){
 
@@ -120,6 +134,8 @@ tabla.innerHTML+=`
 <td>${item.nombre}</td>
 
 <td>${item.contenido}</td>
+
+<td>${item.submenu}</td>
 
 <td>
 
@@ -140,17 +156,42 @@ tabla.innerHTML+=`
 function agregar(){
 
 let nombre=document.getElementById("nombre").value
-let enlace=document.getElementById("enlace").value
+let contenido=document.getElementById("contenido").value
+let submenu=document.getElementById("submenu").value
 
-agregarMenu(nombre,enlace)
+if(nombre=="" || contenido==""){
+
+alert("Debes completar los campos")
+
+return
+
+}
+
+let nuevo={
+
+id: Date.now(),
+nombre:nombre,
+contenido:contenido,
+submenu:submenu
+
+}
+
+menuData.push(nuevo)
+
+guardar()
 
 renderTabla()
+
+document.getElementById("nombre").value=""
+document.getElementById("contenido").value=""
 
 }
 
 function eliminar(id){
 
-eliminarMenu(id)
+menuData = menuData.filter(item=>item.id!==id)
+
+guardar()
 
 renderTabla()
 
@@ -158,12 +199,21 @@ renderTabla()
 
 function editar(id){
 
-let nombre=prompt("Nuevo nombre")
-let enlace=prompt("Nuevo contenido")
+let item = menuData.find(i=>i.id===id)
 
-editarMenu(id,nombre,enlace)
+let nombre=prompt("Nuevo nombre",item.nombre)
+let contenido=prompt("Nuevo contenido",item.contenido)
+
+if(nombre!==null && contenido!==null){
+
+item.nombre=nombre
+item.contenido=contenido
+
+guardar()
 
 renderTabla()
+
+}
 
 }
 
@@ -175,11 +225,7 @@ window.location.href="login.html"
 
 }
 
-setTimeout(()=>{
-
 renderTabla()
-
-},300)
 
 </script>
 
