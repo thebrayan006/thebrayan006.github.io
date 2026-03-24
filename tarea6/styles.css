@@ -1,137 +1,128 @@
-body{
-font-family:Arial;
+*{
 margin:0;
-background:#f1f3f7;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
 }
 
-/* HEADER */
+body{
+background:#f4f6f9;
+}
 
-.header{
-background:#1e293b;
-color:white;
+header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 30px;
+background:#111827;
+color:white;
+padding:15px 40px;
 }
 
-/* MENU PRINCIPAL */
+h1{
+font-size:22px;
+}
 
-#menu ul{
+nav ul{
 display:flex;
 list-style:none;
-margin:0;
-padding:0;
+gap:25px;
 }
 
-#menu li{
+nav ul li{
 position:relative;
-}
-
-#menu a{
-color:white;
-text-decoration:none;
-padding:12px 18px;
-display:block;
+cursor:pointer;
+padding:10px;
 transition:0.3s;
 }
 
-#menu a:hover{
-background:#3b82f6;
-border-radius:5px;
+nav ul li:hover{
+color:#60a5fa;
 }
 
-/* SUBMENU */
-
-#menu ul ul{
+.submenu{
 display:none;
 position:absolute;
-top:100%;
+top:35px;
 left:0;
-background:#334155;
-flex-direction:column;
-list-style:none;
-padding:0;
-margin:0;
-min-width:160px;
-}
-
-#menu ul ul li{
-width:100%;
-}
-
-#menu ul ul a{
-padding:10px 15px;
-}
-
-#menu li:hover > ul{
-display:block;
-}
-
-/* HAMBURGER */
-
-.hamburger{
-display:none;
-font-size:28px;
-cursor:pointer;
-}
-
-/* ADMIN PANEL */
-
-.admin{
-padding:30px;
-}
-
-input{
-padding:8px;
-margin:5px;
-}
-
-button{
-padding:8px 14px;
-background:#3b82f6;
-border:none;
-color:white;
+background:white;
+color:black;
+min-width:150px;
 border-radius:5px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+flex-direction:column;
+}
+
+.submenu li{
+padding:10px;
+white-space:nowrap;
+}
+
+.dropdown:hover .submenu{
+display:flex;
+animation:fade 0.3s ease;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(-5px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.hero{
+text-align:center;
+margin-top:100px;
+}
+
+.hero h2{
+font-size:40px;
+}
+
+.hero p{
+margin-top:10px;
+color:#555;
+}
+
+.menu-toggle{
+display:none;
+font-size:26px;
 cursor:pointer;
 }
-
-button:hover{
-background:#2563eb;
-}
-
-.hidden{
-display:none;
-}
-
-#listaAdmin{
-margin-top:20px;
-}
-
-#listaAdmin li{
-margin-bottom:8px;
-}
-
-/* RESPONSIVE */
 
 @media(max-width:768px){
 
-#menu ul{
-flex-direction:column;
+.menu-toggle{
+display:block;
+}
+
+nav{
 display:none;
-background:#1e293b;
-position:absolute;
-top:60px;
-left:0;
 width:100%;
 }
 
-#menu ul.active{
-display:flex;
+nav.active{
+display:block;
 }
 
-.hamburger{
-display:block;
+nav ul{
+flex-direction:column;
+background:#111827;
+margin-top:10px;
+}
+
+nav ul li{
+padding:15px;
+}
+
+.submenu{
+position:static;
+background:#1f2937;
+color:white;
+box-shadow:none;
 }
 
 }
