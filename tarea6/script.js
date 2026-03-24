@@ -58,6 +58,8 @@ let li=document.createElement("li")
 
 li.innerHTML=`${item.icon || ""} ${item.nombre}`
 
+/* SI TIENE SUBMENU */
+
 if(item.submenu && item.submenu.length>0){
 
 let ul=document.createElement("ul")
@@ -66,19 +68,17 @@ item.submenu.forEach(sub=>{
 
 let subli=document.createElement("li")
 
-/* CREAR ENLACE REAL */
-
 let link=document.createElement("a")
 
-link.href=sub.link
+link.href=sub.link || "#"
 link.textContent=sub.nombre
+
 link.style.color="white"
 link.style.textDecoration="none"
 link.style.display="block"
 link.style.padding="8px 15px"
 
 subli.appendChild(link)
-
 ul.appendChild(subli)
 
 })
@@ -86,6 +86,8 @@ ul.appendChild(subli)
 li.appendChild(ul)
 
 }
+
+/* SI NO TIENE SUBMENU */
 
 else{
 
@@ -112,6 +114,75 @@ cont.innerHTML=`
 <p>${texto}</p>
 
 `
+
+}
+
+/* ========================= */
+/* FUNCIONES PARA EL ADMIN */
+/* ========================= */
+
+function agregarMenu(nombre,contenido,icon="📌"){
+
+let nuevoID = Date.now()
+
+menuData.push({
+id:nuevoID,
+nombre:nombre,
+icon:icon,
+contenido:contenido,
+submenu:[]
+})
+
+guardarMenu()
+renderMenu()
+
+}
+
+function eliminarMenu(id){
+
+menuData = menuData.filter(item=>item.id!=id)
+
+guardarMenu()
+renderMenu()
+
+}
+
+function editarMenu(id,nombre,contenido){
+
+let item = menuData.find(i=>i.id==id)
+
+if(item){
+
+item.nombre=nombre
+item.contenido=contenido
+
+guardarMenu()
+renderMenu()
+
+}
+
+}
+
+/* AGREGAR SUBMENU */
+
+function agregarSubmenu(idPadre,nombre,link){
+
+let padre = menuData.find(i=>i.id==idPadre)
+
+if(padre){
+
+if(!padre.submenu) padre.submenu=[]
+
+padre.submenu.push({
+id:Date.now(),
+nombre:nombre,
+link:link
+})
+
+guardarMenu()
+renderMenu()
+
+}
 
 }
 
