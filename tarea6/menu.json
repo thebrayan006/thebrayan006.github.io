@@ -1,0 +1,39 @@
+{
+  "menu": [
+    {
+      "id": 1,
+      "nombre": "Inicio",
+      "enlace": "#inicio",
+      "submenu": []
+    },
+    {
+      "id": 2,
+      "nombre": "Servicios",
+      "enlace": "#",
+      "submenu": [
+        {
+          "id": 21,
+          "nombre": "Diseño Web",
+          "enlace": "#diseno"
+        },
+        {
+          "id": 22,
+          "nombre": "Marketing",
+          "enlace": "#marketing"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Sobre Nosotros",
+      "enlace": "#sobre",
+      "submenu": []
+    },
+    {
+      "id": 4,
+      "nombre": "Contacto",
+      "enlace": "#contacto",
+      "submenu": []
+    }
+  ]
+}
