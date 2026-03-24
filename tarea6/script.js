@@ -66,15 +66,18 @@ item.submenu.forEach(sub=>{
 
 let subli=document.createElement("li")
 
-subli.innerText=sub.nombre
+/* CREAR ENLACE REAL */
 
-subli.onclick=()=>{
+let link=document.createElement("a")
 
-if(sub.link){
-window.location.href=sub.link
-}
+link.href=sub.link
+link.textContent=sub.nombre
+link.style.color="white"
+link.style.textDecoration="none"
+link.style.display="block"
+link.style.padding="8px 15px"
 
-}
+subli.appendChild(link)
 
 ul.appendChild(subli)
 
@@ -109,47 +112,6 @@ cont.innerHTML=`
 <p>${texto}</p>
 
 `
-
-}
-
-function agregarMenu(nombre,enlace){
-
-menuData.push({
-
-id:Date.now(),
-nombre:nombre,
-icon:"📁",
-contenido:enlace,
-submenu:[]
-
-})
-
-guardarMenu()
-
-}
-
-function eliminarMenu(id){
-
-menuData=menuData.filter(item=>item.id!=id)
-
-guardarMenu()
-
-}
-
-function editarMenu(id,nombre,enlace){
-
-menuData.forEach(item=>{
-
-if(item.id==id){
-
-item.nombre=nombre
-item.contenido=enlace
-
-}
-
-})
-
-guardarMenu()
 
 }
 
