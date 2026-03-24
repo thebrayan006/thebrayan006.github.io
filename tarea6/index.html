@@ -1,13 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Tarea 6</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menú Dinámico</title>
+
+<link rel="stylesheet" href="styles.css">
+
 </head>
+
 <body>
 
-    <h1>Tarea 6</h1>
-    <p>Esta página corresponde a la 6ta tarea del curso.</p>
+<header>
+
+<h1>Menú Dinámico con JSON</h1>
+
+<nav id="menu"></nav>
+
+</header>
+
+
+<section class="admin-panel">
+
+<h2>Panel de Administrador</h2>
+
+<button onclick="mostrarLogin()">Login Administrador</button>
+
+<div id="loginBox" class="hidden">
+
+<input type="text" id="user" placeholder="Usuario">
+<input type="password" id="pass" placeholder="Contraseña">
+
+<button onclick="login()">Entrar</button>
+
+</div>
+
+
+<div id="adminControls" class="hidden">
+
+<h3>Agregar nueva opción</h3>
+
+<input type="text" id="nuevoNombre" placeholder="Nombre">
+<input type="text" id="nuevoEnlace" placeholder="Enlace">
+
+<button onclick="agregarMenu()">Agregar</button>
+
+</div>
+
+</section>
+
+
+<script src="script.js"></script>
 
 </body>
 </html>
