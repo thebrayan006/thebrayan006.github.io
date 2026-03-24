@@ -17,13 +17,13 @@ submenu:[
 {
 id:21,
 nombre:"Diseño Web",
-contenido:"Creamos páginas web modernas."
+link:"diseno-web.html"
 },
 
 {
 id:22,
 nombre:"Marketing",
-contenido:"Servicios de marketing digital."
+link:"marketing.html"
 }
 
 ]
@@ -68,7 +68,13 @@ let subli=document.createElement("li")
 
 subli.innerText=sub.nombre
 
-subli.onclick=()=>mostrarContenido(sub.contenido)
+subli.onclick=()=>{
+
+if(sub.link){
+window.location.href=sub.link
+}
+
+}
 
 ul.appendChild(subli)
 
