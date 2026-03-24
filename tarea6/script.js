@@ -17,37 +17,13 @@ submenu:[
 {
 id:21,
 nombre:"Diseño Web",
-contenido:"Creamos páginas web modernas.",
-submenu:[
-{
-id:211,
-nombre:"Landing Pages",
-contenido:"Creamos landing pages profesionales."
-},
-{
-id:212,
-nombre:"Tiendas Online",
-contenido:"Desarrollamos ecommerce completos."
-}
-]
+contenido:"Creamos páginas web modernas."
 },
 
 {
 id:22,
 nombre:"Marketing",
-contenido:"Servicios de marketing digital.",
-submenu:[
-{
-id:221,
-nombre:"SEO",
-contenido:"Optimización para motores de búsqueda."
-},
-{
-id:222,
-nombre:"Publicidad",
-contenido:"Campañas publicitarias profesionales."
-}
-]
+contenido:"Servicios de marketing digital."
 }
 
 ]
@@ -80,7 +56,7 @@ menuData.forEach(item=>{
 
 let li=document.createElement("li")
 
-li.innerHTML=`${item.icon || "📁"} ${item.nombre}`
+li.innerHTML=`${item.icon || ""} ${item.nombre}`
 
 if(item.submenu && item.submenu.length>0){
 
@@ -91,26 +67,6 @@ item.submenu.forEach(sub=>{
 let subli=document.createElement("li")
 
 subli.innerText=sub.nombre
-
-if(sub.submenu && sub.submenu.length>0){
-
-let ul3=document.createElement("ul")
-
-sub.submenu.forEach(n3=>{
-
-let li3=document.createElement("li")
-
-li3.innerText=n3.nombre
-
-li3.onclick=()=>mostrarContenido(n3.contenido)
-
-ul3.appendChild(li3)
-
-})
-
-subli.appendChild(ul3)
-
-}
 
 subli.onclick=()=>mostrarContenido(sub.contenido)
 
@@ -159,29 +115,6 @@ nombre:nombre,
 icon:"📁",
 contenido:enlace,
 submenu:[]
-
-})
-
-guardarMenu()
-
-}
-
-function agregarSubmenu(id,nombre){
-
-menuData.forEach(item=>{
-
-if(item.id==id){
-
-item.submenu.push({
-
-id:Date.now(),
-nombre:nombre,
-contenido:"Contenido generado desde el panel administrador",
-submenu:[]
-
-})
-
-}
 
 })
 
