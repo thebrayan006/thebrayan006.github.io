@@ -60,8 +60,6 @@ if(item.submenu && item.submenu.length>0){
 
 const sub=document.createElement("ul")
 
-sub.classList.add("submenu")
-
 item.submenu.forEach(s=>{
 
 const subLi=document.createElement("li")
@@ -93,7 +91,6 @@ menu.appendChild(ul)
 function agregarMenu(){
 
 const nombre=document.getElementById("nombreMenu").value
-
 const enlace=document.getElementById("enlaceMenu").value
 
 if(!nombre || !enlace){
@@ -105,15 +102,10 @@ return
 }
 
 const nuevo={
-
 id:Date.now(),
-
 nombre:nombre,
-
 enlace:enlace,
-
 submenu:[]
-
 }
 
 menuData.push(nuevo)
@@ -171,7 +163,6 @@ menuData.forEach(m=>{
 if(m.id===id){
 
 m.nombre=nuevoNombre
-
 m.enlace=nuevoLink
 
 }
@@ -195,7 +186,6 @@ document.getElementById("loginBox").classList.toggle("hidden")
 function login(){
 
 const user=document.getElementById("user").value
-
 const pass=document.getElementById("pass").value
 
 if(user==="admin" && pass==="1234"){
