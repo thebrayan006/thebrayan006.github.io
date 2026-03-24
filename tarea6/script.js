@@ -1,122 +1,114 @@
-let menuData=[];
+let menuData = [
+{
+id:1,
+nombre:"Inicio",
+enlace:"inicio",
+submenu:[]
+},
 
-async function cargarMenu(){
+{
+id:2,
+nombre:"Productos",
+enlace:"#",
+submenu:[
+{
+id:21,
+nombre:"Laptops",
+contenido:"Tenemos laptops HP, Dell, Lenovo con excelente rendimiento."
+},
+{
+id:22,
+nombre:"Celulares",
+contenido:"Disponemos de celulares Samsung, iPhone y Xiaomi."
+}
+]
+},
 
-let savedMenu=localStorage.getItem("menuData");
+{
+id:3,
+nombre:"Servicios",
+enlace:"#",
+submenu:[
+{
+id:31,
+nombre:"Reparación",
+contenido:"Servicio técnico especializado para computadoras y celulares."
+},
+{
+id:32,
+nombre:"Soporte",
+contenido:"Ofrecemos soporte técnico remoto y presencial."
+}
+]
+},
 
-if(savedMenu){
-
-menuData=JSON.parse(savedMenu);
-renderMenu(menuData);
-
-}else{
-
-let response=await fetch("./menu.json");
-let data=await response.json();
-
-menuData=data.menu;
-
-renderMenu(menuData);
-
+{
+id:4,
+nombre:"Contacto",
+enlace:"contacto",
+submenu:[]
 }
 
-}
+]
 
-function renderMenu(menu){
+function renderMenu(){
 
-const menuContainer=document.querySelector("#menu ul");
+let nav=document.getElementById("menu")
 
-if(!menuContainer) return;
+nav.innerHTML=""
 
-menuContainer.innerHTML="";
+menuData.forEach(item=>{
 
-menu.forEach(item=>{
+let li=document.createElement("li")
 
-let li=document.createElement("li");
+if(item.submenu.length>0){
 
-let a=document.createElement("a");
+li.innerHTML=`${item.nombre}`
 
-a.href=item.enlace;
-a.textContent=item.nombre;
-
-li.appendChild(a);
-
-if(item.submenu){
-
-let subUl=document.createElement("ul");
+let ul=document.createElement("ul")
 
 item.submenu.forEach(sub=>{
 
-let subLi=document.createElement("li");
+let subli=document.createElement("li")
 
-let subA=document.createElement("a");
+subli.innerText=sub.nombre
 
-subA.href=sub.enlace;
-subA.textContent=sub.nombre;
+subli.onclick=()=>mostrarContenido(sub.contenido)
 
-subLi.appendChild(subA);
+ul.appendChild(subli)
 
-subUl.appendChild(subLi);
+})
 
-});
-
-li.appendChild(subUl);
+li.appendChild(ul)
 
 }
 
-menuContainer.appendChild(li);
+else{
 
-});
+li.innerHTML=`<a href="#">${item.nombre}</a>`
 
-}
-
-function guardarMenu(){
-
-localStorage.setItem("menuData",JSON.stringify(menuData));
-
-renderMenu(menuData);
+li.onclick=()=>mostrarContenido("Bienvenido a la sección "+item.nombre)
 
 }
 
-function agregarMenu(nombre,enlace){
+nav.appendChild(li)
 
-let id=Date.now();
-
-menuData.push({
-id,
-nombre,
-enlace
-});
-
-guardarMenu();
+})
 
 }
 
-function eliminarMenu(id){
+function mostrarContenido(texto){
 
-menuData=menuData.filter(item=>item.id!=id);
+let cont=document.getElementById("contenido")
 
-guardarMenu();
+cont.innerHTML=`
 
-}
+<h2>Información</h2>
 
-function editarMenu(id,nombre,enlace){
+<p>${texto}</p>
 
-menuData=menuData.map(item=>{
-
-if(item.id==id){
-
-item.nombre=nombre;
-item.enlace=enlace;
+`
 
 }
 
-return item;
-
-});
-
-guardarMenu();
-
-}
-
-document.addEventListener("DOMContentLoaded",cargarMenu);
+renderMenu()
