@@ -7,30 +7,78 @@
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+.admin-top{
+
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+
+}
+
+button{
+padding:8px 12px;
+border:none;
+background:#0077ff;
+color:white;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border:1px solid #ccc;
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div class="hero">
 
-<h2>Panel Administrador</h2>
+<div class="admin-top">
 
-<a href="index.html">
-<button>Ir al Inicio</button>
-</a>
+<div>
 
-<br><br>
+<button onclick="window.location.href='index.html'">
+Inicio
+</button>
 
-<h3>Agregar menú</h3>
+</div>
 
-<input id="nombre" placeholder="Nombre">
-<input id="enlace" placeholder="Contenido">
+<div>
+
+<button onclick="cerrarSesion()">
+Cerrar Sesión
+</button>
+
+</div>
+
+</div>
+
+<h2>Administrador del Menú</h2>
+
+<input id="nombre" placeholder="Nombre"><br><br>
+
+<input id="enlace" placeholder="Contenido"><br><br>
 
 <button onclick="agregar()">Agregar</button>
 
 <h3>Opciones del menú</h3>
 
-<table border="1">
+<table>
 
 <thead>
 
@@ -38,6 +86,7 @@
 
 <th>ID</th>
 <th>Nombre</th>
+<th>Contenido</th>
 <th>Acciones</th>
 
 </tr>
@@ -70,9 +119,9 @@ tabla.innerHTML+=`
 
 <td>${item.nombre}</td>
 
-<td>
+<td>${item.contenido}</td>
 
-<button onclick="crearSub(${item.id})">Agregar Submenú</button>
+<td>
 
 <button onclick="editar(${item.id})">Editar</button>
 
@@ -99,16 +148,6 @@ renderTabla()
 
 }
 
-function crearSub(id){
-
-let nombre=prompt("Nombre del Submenú")
-
-agregarSubmenu(id,nombre)
-
-renderTabla()
-
-}
-
 function eliminar(id){
 
 eliminarMenu(id)
@@ -125,6 +164,14 @@ let enlace=prompt("Nuevo contenido")
 editarMenu(id,nombre,enlace)
 
 renderTabla()
+
+}
+
+function cerrarSesion(){
+
+localStorage.removeItem("login")
+
+window.location.href="login.html"
 
 }
 
