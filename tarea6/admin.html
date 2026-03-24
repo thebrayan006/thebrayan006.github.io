@@ -1,39 +1,196 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Panel Administrador</title>
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+/* DASHBOARD */
+
+.admin-container{
+max-width:900px;
+margin:auto;
+padding:40px 20px;
+}
+
+.admin-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.admin-header h2{
+color:#38bdf8;
+}
+
+/* BOTONES SUPERIORES */
+
+.top-buttons{
+display:flex;
+gap:10px;
+}
+
+.btn{
+padding:10px 16px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+}
+
+.btn-home{
+background:#38bdf8;
+color:black;
+}
+
+.btn-logout{
+background:#ef4444;
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+/* FORM */
+
+.form-box{
+background:#020617;
+padding:20px;
+border-radius:10px;
+margin-bottom:30px;
+box-shadow:0 5px 20px rgba(0,0,0,.4);
+}
+
+.form-box input{
+width:100%;
+padding:10px;
+margin-bottom:12px;
+border-radius:6px;
+border:none;
+}
+
+.btn-add{
+background:#22c55e;
+color:black;
+width:100%;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#020617;
+border-radius:10px;
+overflow:hidden;
+}
+
+th{
+background:#020617;
+color:#38bdf8;
+padding:12px;
+}
+
+td{
+padding:10px;
+text-align:center;
+}
+
+tr:nth-child(even){
+background:#0f172a;
+}
+
+.action-btn{
+padding:6px 10px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+margin:2px;
+}
+
+.edit{
+background:#f59e0b;
+color:black;
+}
+
+.delete{
+background:#ef4444;
+color:white;
+}
+
+/* NOTIFICACION */
+
+.toast{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#22c55e;
+padding:12px 20px;
+border-radius:6px;
+display:none;
+color:black;
+font-weight:bold;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div class="hero">
+<div class="admin-container">
 
-<h2>Administrador del Menú</h2>
+<div class="admin-header">
 
-<input id="nombre" placeholder="Nombre"><br><br>
+<h2>Panel Administrador</h2>
 
-<input id="enlace" placeholder="Enlace"><br><br>
+<div class="top-buttons">
 
-<button onclick="agregar()">Agregar</button>
+<button class="btn btn-home" onclick="window.location='index.html'">
+Inicio
+</button>
 
-<h3>Opciones del menú</h3>
+<button class="btn btn-logout" onclick="logout()">
+Cerrar sesión
+</button>
 
-<table border="1">
+</div>
+
+</div>
+
+<div class="form-box">
+
+<h3>Agregar opción al menú</h3>
+
+<input id="nombre" placeholder="Nombre del menú">
+
+<input id="enlace" placeholder="Enlace del menú">
+
+<button class="btn btn-add" onclick="agregar()">Agregar opción</button>
+
+</div>
+
+<h3>Opciones actuales del menú</h3>
+
+<table>
 
 <thead>
 
 <tr>
-
 <th>ID</th>
 <th>Nombre</th>
 <th>Enlace</th>
 <th>Acciones</th>
-
 </tr>
 
 </thead>
@@ -44,11 +201,28 @@
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script src="script.js"></script>
 
 <script>
 
 let tabla=document.getElementById("tablaMenu")
+
+function mostrarToast(msg){
+
+let toast=document.getElementById("toast")
+
+toast.innerText=msg
+toast.style.display="block"
+
+setTimeout(()=>{
+
+toast.style.display="none"
+
+},2000)
+
+}
 
 function renderTabla(){
 
@@ -68,9 +242,13 @@ tabla.innerHTML+=`
 
 <td>
 
-<button onclick="editar(${item.id})">Editar</button>
+<button class="action-btn edit" onclick="editar(${item.id})">
+Editar
+</button>
 
-<button onclick="eliminar(${item.id})">Eliminar</button>
+<button class="action-btn delete" onclick="eliminar(${item.id})">
+Eliminar
+</button>
 
 </td>
 
@@ -87,17 +265,31 @@ function agregar(){
 let nombre=document.getElementById("nombre").value
 let enlace=document.getElementById("enlace").value
 
+if(nombre=="" || enlace==""){
+
+alert("Debe completar los campos")
+
+return
+
+}
+
 agregarMenu(nombre,enlace)
 
 renderTabla()
+
+mostrarToast("Menú agregado")
 
 }
 
 function eliminar(id){
 
+if(!confirm("¿Seguro que desea eliminar esta opción?")) return
+
 eliminarMenu(id)
 
 renderTabla()
+
+mostrarToast("Menú eliminado")
 
 }
 
@@ -106,9 +298,21 @@ function editar(id){
 let nombre=prompt("Nuevo nombre")
 let enlace=prompt("Nuevo enlace")
 
+if(!nombre || !enlace) return
+
 editarMenu(id,nombre,enlace)
 
 renderTabla()
+
+mostrarToast("Menú actualizado")
+
+}
+
+function logout(){
+
+localStorage.removeItem("auth")
+
+window.location="login.html"
 
 }
 
