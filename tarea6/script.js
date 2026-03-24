@@ -13,21 +13,17 @@ id:2,
 nombre:"Servicios",
 icon:"💼",
 submenu:[
-
 {
 id:21,
 nombre:"Diseño Web",
 link:"diseno-web.html"
 },
-
 {
 id:22,
 nombre:"Marketing",
 link:"marketing.html"
 }
-
 ]
-
 },
 
 {
@@ -44,10 +40,13 @@ function guardarMenu(){
 localStorage.setItem("menuData",JSON.stringify(menuData))
 }
 
+/* ========================= */
+/* RENDER DEL MENU */
+/* ========================= */
+
 function renderMenu(){
 
 let nav=document.getElementById("menu")
-
 if(!nav) return
 
 nav.innerHTML=""
@@ -56,11 +55,11 @@ menuData.forEach(item=>{
 
 let li=document.createElement("li")
 
-li.innerHTML=`${item.icon || ""} ${item.nombre}`
+li.innerHTML=`${item.icon || ""} ${item.nombre || ""}`
 
 /* SI TIENE SUBMENU */
 
-if(item.submenu && item.submenu.length>0){
+if(item.submenu && item.submenu.length > 0){
 
 let ul=document.createElement("ul")
 
@@ -70,8 +69,8 @@ let subli=document.createElement("li")
 
 let link=document.createElement("a")
 
-link.href=sub.link || "#"
-link.textContent=sub.nombre
+link.href = sub.link || "#"
+link.textContent = sub.nombre || "Submenu"
 
 link.style.color="white"
 link.style.textDecoration="none"
@@ -91,7 +90,7 @@ li.appendChild(ul)
 
 else{
 
-li.onclick=()=>mostrarContenido(item.contenido)
+li.onclick=()=>mostrarContenido(item.contenido || "")
 
 }
 
@@ -104,13 +103,11 @@ nav.appendChild(li)
 function mostrarContenido(texto){
 
 let cont=document.getElementById("contenido")
-
 if(!cont) return
 
 cont.innerHTML=`
 
 <h2>Información</h2>
-
 <p>${texto}</p>
 
 `
@@ -118,19 +115,42 @@ cont.innerHTML=`
 }
 
 /* ========================= */
-/* FUNCIONES PARA EL ADMIN */
+/* FUNCIONES ADMIN */
 /* ========================= */
 
-function agregarMenu(nombre,contenido,icon="📌"){
+function agregarMenu(nombre,contenido){
 
-let nuevoID = Date.now()
+if(!nombre) return
 
 menuData.push({
-id:nuevoID,
+
+id:Date.now(),
 nombre:nombre,
-icon:icon,
-contenido:contenido,
+icon:"📌",
+contenido:contenido || "",
 submenu:[]
+
+})
+
+guardarMenu()
+renderMenu()
+
+}
+
+function agregarSubmenu(idPadre,nombre,link){
+
+let padre = menuData.find(i=>i.id==idPadre)
+
+if(!padre) return
+
+if(!padre.submenu) padre.submenu=[]
+
+padre.submenu.push({
+
+id:Date.now(),
+nombre:nombre || "Submenu",
+link:link || "#"
+
 })
 
 guardarMenu()
@@ -151,38 +171,13 @@ function editarMenu(id,nombre,contenido){
 
 let item = menuData.find(i=>i.id==id)
 
-if(item){
+if(!item) return
 
-item.nombre=nombre
-item.contenido=contenido
-
-guardarMenu()
-renderMenu()
-
-}
-
-}
-
-/* AGREGAR SUBMENU */
-
-function agregarSubmenu(idPadre,nombre,link){
-
-let padre = menuData.find(i=>i.id==idPadre)
-
-if(padre){
-
-if(!padre.submenu) padre.submenu=[]
-
-padre.submenu.push({
-id:Date.now(),
-nombre:nombre,
-link:link
-})
+item.nombre = nombre || item.nombre
+item.contenido = contenido || item.contenido
 
 guardarMenu()
 renderMenu()
-
-}
 
 }
 
