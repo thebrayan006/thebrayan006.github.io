@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Menú Dinámico</title>
+
+<title>Menú Dinámico Dashboard</title>
 
 <link rel="stylesheet" href="styles.css">
 
@@ -11,20 +14,24 @@
 
 <body>
 
-<header>
+<header class="header">
 
-<h1>Menú Dinámico con JSON</h1>
+<h1>Menú Dinámico</h1>
+
+<div class="hamburger" onclick="toggleMenu()">
+☰
+</div>
 
 <nav id="menu"></nav>
 
 </header>
 
 
-<section class="admin-panel">
+<section class="admin">
 
-<h2>Panel de Administrador</h2>
+<h2>Panel Administrador</h2>
 
-<button onclick="mostrarLogin()">Login Administrador</button>
+<button onclick="mostrarLogin()">Login</button>
 
 <div id="loginBox" class="hidden">
 
@@ -36,14 +43,16 @@
 </div>
 
 
-<div id="adminControls" class="hidden">
+<div id="adminPanel" class="hidden">
 
-<h3>Agregar nueva opción</h3>
+<h3>Administrar menú</h3>
 
-<input type="text" id="nuevoNombre" placeholder="Nombre">
-<input type="text" id="nuevoEnlace" placeholder="Enlace">
+<input type="text" id="nombreMenu" placeholder="Nombre">
+<input type="text" id="enlaceMenu" placeholder="Enlace">
 
 <button onclick="agregarMenu()">Agregar</button>
+
+<ul id="listaAdmin"></ul>
 
 </div>
 
