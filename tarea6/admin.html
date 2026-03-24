@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Panel Administrador</title>
 
@@ -12,134 +9,77 @@
 
 <style>
 
-/* DASHBOARD */
-
-.admin-container{
-max-width:900px;
-margin:auto;
-padding:40px 20px;
-}
-
-.admin-header{
+.adminTop{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:30px;
+margin-bottom:20px;
 }
 
-.admin-header h2{
-color:#38bdf8;
-}
-
-/* BOTONES SUPERIORES */
-
-.top-buttons{
-display:flex;
-gap:10px;
-}
-
-.btn{
-padding:10px 16px;
+.adminButtons button{
+margin-left:10px;
+padding:8px 14px;
 border:none;
+background:#111;
+color:white;
 border-radius:6px;
 cursor:pointer;
-font-weight:bold;
-transition:.3s;
 }
 
-.btn-home{
-background:#38bdf8;
-color:black;
+.adminButtons button:hover{
+background:#333;
 }
 
-.btn-logout{
-background:#ef4444;
-color:white;
-}
-
-.btn:hover{
-transform:translateY(-2px);
-}
-
-/* FORM */
-
-.form-box{
-background:#020617;
-padding:20px;
-border-radius:10px;
-margin-bottom:30px;
-box-shadow:0 5px 20px rgba(0,0,0,.4);
-}
-
-.form-box input{
-width:100%;
-padding:10px;
-margin-bottom:12px;
+input{
+padding:8px;
+width:220px;
 border-radius:6px;
-border:none;
+border:1px solid #ccc;
 }
-
-.btn-add{
-background:#22c55e;
-color:black;
-width:100%;
-}
-
-/* TABLE */
 
 table{
 width:100%;
+margin-top:20px;
 border-collapse:collapse;
-background:#020617;
-border-radius:10px;
-overflow:hidden;
 }
 
-th{
-background:#020617;
-color:#38bdf8;
-padding:12px;
-}
-
-td{
+th,td{
 padding:10px;
 text-align:center;
 }
 
-tr:nth-child(even){
-background:#0f172a;
-}
-
-.action-btn{
-padding:6px 10px;
-border:none;
-border-radius:5px;
-cursor:pointer;
-margin:2px;
-}
-
-.edit{
-background:#f59e0b;
-color:black;
-}
-
-.delete{
-background:#ef4444;
+th{
+background:#111;
 color:white;
 }
 
-/* NOTIFICACION */
+button{
+padding:6px 12px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
 
-.toast{
+button:hover{
+opacity:.8;
+}
+
+.notificacion{
 position:fixed;
 bottom:20px;
 right:20px;
-background:#22c55e;
-padding:12px 20px;
-border-radius:6px;
-display:none;
-color:black;
-font-weight:bold;
+background:#111;
+color:white;
+padding:12px 18px;
+border-radius:8px;
+opacity:0;
+transform:translateY(20px);
+transition:all .3s;
+}
+
+.notificacion.show{
+opacity:1;
+transform:translateY(0);
 }
 
 </style>
@@ -148,41 +88,35 @@ font-weight:bold;
 
 <body>
 
-<div class="admin-container">
+<div class="hero">
 
-<div class="admin-header">
+<div class="adminTop">
 
 <h2>Panel Administrador</h2>
 
-<div class="top-buttons">
+<div class="adminButtons">
 
-<button class="btn btn-home" onclick="window.location='index.html'">
-Inicio
-</button>
+<button onclick="window.location.href='index.html'">🏠 Inicio</button>
 
-<button class="btn btn-logout" onclick="logout()">
-Cerrar sesión
-</button>
+<button onclick="logout()">🚪 Cerrar sesión</button>
 
 </div>
 
 </div>
 
-<div class="form-box">
+<input id="buscar" placeholder="Buscar menú..." onkeyup="buscarMenu()">
 
-<h3>Agregar opción al menú</h3>
+<br><br>
 
 <input id="nombre" placeholder="Nombre del menú">
 
-<input id="enlace" placeholder="Enlace del menú">
+<input id="enlace" placeholder="Enlace">
 
-<button class="btn btn-add" onclick="agregar()">Agregar opción</button>
+<button onclick="agregar()">Agregar</button>
 
-</div>
+<h3>Opciones del menú</h3>
 
-<h3>Opciones actuales del menú</h3>
-
-<table>
+<table border="1">
 
 <thead>
 
@@ -201,7 +135,7 @@ Cerrar sesión
 
 </div>
 
-<div class="toast" id="toast"></div>
+<div id="noti" class="notificacion"></div>
 
 <script src="script.js"></script>
 
@@ -209,26 +143,11 @@ Cerrar sesión
 
 let tabla=document.getElementById("tablaMenu")
 
-function mostrarToast(msg){
-
-let toast=document.getElementById("toast")
-
-toast.innerText=msg
-toast.style.display="block"
-
-setTimeout(()=>{
-
-toast.style.display="none"
-
-},2000)
-
-}
-
-function renderTabla(){
+function renderTabla(lista=menuData){
 
 tabla.innerHTML=""
 
-menuData.forEach(item=>{
+lista.forEach(item=>{
 
 tabla.innerHTML+=`
 
@@ -242,13 +161,9 @@ tabla.innerHTML+=`
 
 <td>
 
-<button class="action-btn edit" onclick="editar(${item.id})">
-Editar
-</button>
+<button onclick="editar(${item.id})">✏️ Editar</button>
 
-<button class="action-btn delete" onclick="eliminar(${item.id})">
-Eliminar
-</button>
+<button onclick="eliminar(${item.id})">🗑 Eliminar</button>
 
 </td>
 
@@ -266,31 +181,29 @@ let nombre=document.getElementById("nombre").value
 let enlace=document.getElementById("enlace").value
 
 if(nombre=="" || enlace==""){
-
-alert("Debe completar los campos")
-
+notificacion("Completa todos los campos")
 return
-
 }
 
 agregarMenu(nombre,enlace)
 
+document.getElementById("nombre").value=""
+document.getElementById("enlace").value=""
+
 renderTabla()
 
-mostrarToast("Menú agregado")
-
+notificacion("Menú agregado correctamente")
 }
 
 function eliminar(id){
 
-if(!confirm("¿Seguro que desea eliminar esta opción?")) return
+if(!confirm("¿Seguro que deseas eliminar este menú?")) return
 
 eliminarMenu(id)
 
 renderTabla()
 
-mostrarToast("Menú eliminado")
-
+notificacion("Menú eliminado")
 }
 
 function editar(id){
@@ -304,15 +217,44 @@ editarMenu(id,nombre,enlace)
 
 renderTabla()
 
-mostrarToast("Menú actualizado")
+notificacion("Menú actualizado")
+}
+
+function buscarMenu(){
+
+let texto=document.getElementById("buscar").value.toLowerCase()
+
+let filtrado=menuData.filter(item=>
+
+item.nombre.toLowerCase().includes(texto)
+
+)
+
+renderTabla(filtrado)
+
+}
+
+function notificacion(msg){
+
+let n=document.getElementById("noti")
+
+n.innerText=msg
+
+n.classList.add("show")
+
+setTimeout(()=>{
+
+n.classList.remove("show")
+
+},2000)
 
 }
 
 function logout(){
 
-localStorage.removeItem("auth")
+localStorage.removeItem("admin")
 
-window.location="login.html"
+window.location.href="login.html"
 
 }
 
