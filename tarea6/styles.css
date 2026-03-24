@@ -43,28 +43,28 @@ border-radius:5px;
 
 /* SUBMENU */
 
-.submenu{
+#menu ul ul{
 display:none;
 position:absolute;
 top:100%;
 left:0;
 background:#334155;
+flex-direction:column;
 list-style:none;
 padding:0;
 margin:0;
 min-width:160px;
 }
 
-.submenu li{
+#menu ul ul li{
 width:100%;
 }
 
-.submenu a{
-display:block;
+#menu ul ul a{
 padding:10px 15px;
 }
 
-#menu li:hover .submenu{
+#menu li:hover > ul{
 display:block;
 }
 
