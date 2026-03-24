@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Empresa Digital</title>
+<title>Menú Dinámico</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -12,82 +14,32 @@
 
 <body>
 
-<header>
+<nav>
 
-<h1>Empresa Digital</h1>
+<div class="logo">Mi Sitio</div>
 
-<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<div class="hamburger" onclick="toggleMenu()">☰</div>
 
-<nav id="menu"></nav>
+<div id="menu">
+<ul></ul>
+</div>
 
-</header>
+<a href="login.html" class="login-btn">Admin</a>
 
+</nav>
 
 <section class="hero">
 
-<h2>Bienvenido</h2>
-<p>Soluciones digitales para tu negocio</p>
+<h1>Menú Dinámico con JSON</h1>
+
+<p>
+Sistema de menú dinámico con panel administrador
+</p>
 
 </section>
 
-
-<script>
-
-function toggleMenu(){
-document.getElementById("menu").classList.toggle("active");
-}
-
-async function cargarMenu(){
-
-let data = localStorage.getItem("menuData");
-
-if(data){
-renderMenu(JSON.parse(data));
-return;
-}
-
-const response = await fetch("menu.json");
-const menu = await response.json();
-
-localStorage.setItem("menuData", JSON.stringify(menu));
-
-renderMenu(menu);
-}
-
-function renderMenu(menu){
-
-let html = "<ul>";
-
-menu.forEach(item=>{
-
-if(item.submenu){
-
-html += `
-<li class="dropdown">
-${item.nombre}
-<ul class="submenu">
-${item.submenu.map(sub=>`<li>${sub}</li>`).join("")}
-</ul>
-</li>
-`;
-
-}else{
-
-html += `<li>${item.nombre}</li>`;
-
-}
-
-});
-
-html += "</ul>";
-
-document.getElementById("menu").innerHTML = html;
-
-}
-
-cargarMenu();
-
-</script>
+<script src="script.js"></script>
 
 </body>
+
 </html>
