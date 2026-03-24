@@ -24,7 +24,7 @@ justify-content:space-between;
 align-items:center;
 }
 
-/* MENU */
+/* MENU PRINCIPAL */
 
 nav ul{
 list-style:none;
@@ -34,42 +34,50 @@ margin:0;
 padding:0;
 }
 
+/* ITEMS */
+
 nav li{
 color:white;
 cursor:pointer;
 position:relative;
-padding:5px 10px;
+padding:6px 10px;
 }
 
 nav li:hover{
 color:#00d4ff;
 }
 
-/* SUBMENU OCULTO */
+/* SUBMENU (OCULTO TOTALMENTE) */
 
-nav ul ul{
-display:none;
+nav ul li ul{
+
+display:none !important;
 position:absolute;
 top:35px;
 left:0;
 background:#222;
-padding:10px 0;
 border-radius:6px;
-flex-direction:column;
+padding:8px 0;
 min-width:160px;
+flex-direction:column;
+
 }
 
-/* SUBMENU ITEMS */
+/* ITEMS SUBMENU */
 
-nav ul ul li{
-padding:10px 15px;
-white-space:nowrap;
-}
+nav ul li ul li{
 
-/* MOSTRAR SOLO AL PASAR EL MOUSE */
-
-nav li:hover > ul{
 display:block;
+padding:10px 15px;
+
+}
+
+/* MOSTRAR SOLO EN HOVER */
+
+nav ul li:hover > ul{
+
+display:flex !important;
+
 }
 
 /* BOTON LOGIN */
@@ -89,7 +97,7 @@ font-weight:bold;
 background:#009ec2;
 }
 
-/* CONTENIDO PRINCIPAL */
+/* CONTENIDO */
 
 #contenido{
 
