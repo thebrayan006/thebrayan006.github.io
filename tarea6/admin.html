@@ -1,128 +1,125 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+
 <head>
 
-<meta charset="UTF-8">
 <title>Panel Administrador</title>
 
-<style>
-
-body{
-font-family:Arial;
-background:#f4f6f9;
-margin:40px;
-}
-
-h1{
-margin-bottom:20px;
-}
-
-button{
-padding:8px 12px;
-margin:5px;
-border:none;
-border-radius:4px;
-cursor:pointer;
-}
-
-.add{
-background:#16a34a;
-color:white;
-}
-
-.delete{
-background:#dc2626;
-color:white;
-}
-
-.edit{
-background:#2563eb;
-color:white;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<h1>Panel Administrador</h1>
+<div class="hero">
 
-<button class="add" onclick="addItem()">Agregar opción</button>
+<h2>Administrador del Menú</h2>
 
-<ul id="menuList"></ul>
+<input id="nombre" placeholder="Nombre"><br><br>
+
+<input id="enlace" placeholder="Enlace"><br><br>
+
+<button onclick="agregar()">Agregar</button>
+
+<h3>Opciones del menú</h3>
+
+<table border="1">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Nombre</th>
+<th>Enlace</th>
+<th>Acciones</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tablaMenu"></tbody>
+
+</table>
+
+</div>
+
+<script src="script.js"></script>
 
 <script>
 
-if(localStorage.getItem("auth")!="true"){
-location="login.html";
-}
+let tabla=document.getElementById("tablaMenu")
 
-let menu = JSON.parse(localStorage.getItem("menuData")) || [];
+function renderTabla(){
 
-function render(){
+tabla.innerHTML=""
 
-let html="";
+menuData.forEach(item=>{
 
-menu.forEach((item,index)=>{
+tabla.innerHTML+=`
 
-html+=`
-<li>
+<tr>
 
-${item.nombre}
+<td>${item.id}</td>
 
-<button class="edit" onclick="editItem(${index})">Editar</button>
+<td>${item.nombre}</td>
 
-<button class="delete" onclick="deleteItem(${index})">Eliminar</button>
+<td>${item.enlace}</td>
 
-</li>
-`;
+<td>
 
-});
+<button onclick="editar(${item.id})">Editar</button>
 
-document.getElementById("menuList").innerHTML=html;
+<button onclick="eliminar(${item.id})">Eliminar</button>
 
-}
+</td>
 
-function addItem(){
+</tr>
 
-let nombre = prompt("Nombre del menú");
+`
 
-menu.push({nombre});
-
-save();
+})
 
 }
 
-function editItem(i){
+function agregar(){
 
-let nombre = prompt("Nuevo nombre",menu[i].nombre);
+let nombre=document.getElementById("nombre").value
+let enlace=document.getElementById("enlace").value
 
-menu[i].nombre=nombre;
+agregarMenu(nombre,enlace)
 
-save();
-
-}
-
-function deleteItem(i){
-
-menu.splice(i,1);
-
-save();
+renderTabla()
 
 }
 
-function save(){
+function eliminar(id){
 
-localStorage.setItem("menuData",JSON.stringify(menu));
+eliminarMenu(id)
 
-render();
+renderTabla()
 
 }
 
-render();
+function editar(id){
+
+let nombre=prompt("Nuevo nombre")
+let enlace=prompt("Nuevo enlace")
+
+editarMenu(id,nombre,enlace)
+
+renderTabla()
+
+}
+
+setTimeout(()=>{
+
+renderTabla()
+
+},500)
 
 </script>
 
 </body>
+
 </html>
