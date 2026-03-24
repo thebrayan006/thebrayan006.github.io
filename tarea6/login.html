@@ -1,87 +1,25 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
+<html>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
 
 <title>Login Administrador</title>
 
-<style>
-
-body{
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-background:#0f172a;
-font-family:Arial;
-}
-
-.login-box{
-
-background:white;
-padding:40px;
-border-radius:10px;
-width:320px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-
-}
-
-h2{
-text-align:center;
-margin-bottom:20px;
-}
-
-input{
-
-width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:5px;
-border:1px solid #ccc;
-
-}
-
-button{
-
-width:100%;
-padding:10px;
-border:none;
-background:#2563eb;
-color:white;
-border-radius:5px;
-cursor:pointer;
-transition:0.3s;
-
-}
-
-button:hover{
-background:#1d4ed8;
-}
-
-.error{
-color:red;
-text-align:center;
-margin-top:10px;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<div class="login-box">
+<div class="hero">
 
-<h2>Administrador</h2>
+<h2>Login Administrador</h2>
 
-<input id="user" placeholder="Usuario">
-<input id="pass" type="password" placeholder="Contraseña">
+<input id="user" placeholder="Usuario"><br><br>
 
-<button onclick="login()">Ingresar</button>
+<input id="pass" type="password" placeholder="Contraseña"><br><br>
 
-<p id="error" class="error"></p>
+<button onclick="login()">Entrar</button>
 
 </div>
 
@@ -89,17 +27,18 @@ margin-top:10px;
 
 function login(){
 
-let user = document.getElementById("user").value;
-let pass = document.getElementById("pass").value;
+let u=document.getElementById("user").value
+let p=document.getElementById("pass").value
 
-if(user==="admin" && pass==="1234"){
+if(u==="admin" && p==="1234"){
 
-localStorage.setItem("auth","true");
-window.location="admin.html";
+localStorage.setItem("auth","true")
+
+window.location="admin.html"
 
 }else{
 
-document.getElementById("error").innerText="Credenciales incorrectas";
+alert("Credenciales incorrectas")
 
 }
 
@@ -108,4 +47,5 @@ document.getElementById("error").innerText="Credenciales incorrectas";
 </script>
 
 </body>
+
 </html>
