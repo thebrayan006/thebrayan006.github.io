@@ -1,109 +1,106 @@
-
-let menuData = [];
+let menuData=[]
 
 async function cargarMenu(){
 
-const response = await fetch("menu.json");
+const local=localStorage.getItem("menuData")
 
-const data = await response.json();
+if(local){
 
-menuData = data.menu;
+menuData=JSON.parse(local)
 
-renderMenu();
+renderMenu()
+
+renderAdmin()
+
+return
+
+}
+
+const response=await fetch("menu.json")
+
+const data=await response.json()
+
+menuData=data.menu
+
+guardarDatos()
+
+renderMenu()
+
+renderAdmin()
+
+}
+
+function guardarDatos(){
+
+localStorage.setItem("menuData",JSON.stringify(menuData))
 
 }
 
 function renderMenu(){
 
-const menuContainer = document.getElementById("menu");
+const menu=document.getElementById("menu")
 
-menuContainer.innerHTML="";
+menu.innerHTML=""
 
-const ul=document.createElement("ul");
+const ul=document.createElement("ul")
 
 menuData.forEach(item=>{
 
-const li=document.createElement("li");
+const li=document.createElement("li")
 
-const a=document.createElement("a");
+const a=document.createElement("a")
 
-a.textContent=item.nombre;
+a.textContent=item.nombre
 
-a.href=item.enlace;
+a.href=item.enlace
 
-li.appendChild(a);
+li.appendChild(a)
 
 if(item.submenu && item.submenu.length>0){
 
-const subUl=document.createElement("ul");
+const sub=document.createElement("ul")
 
-subUl.classList.add("submenu");
+sub.classList.add("submenu")
 
-item.submenu.forEach(sub=>{
+item.submenu.forEach(s=>{
 
-const subLi=document.createElement("li");
+const subLi=document.createElement("li")
 
-const subA=document.createElement("a");
+const subA=document.createElement("a")
 
-subA.textContent=sub.nombre;
+subA.textContent=s.nombre
 
-subA.href=sub.enlace;
+subA.href=s.enlace
 
-subLi.appendChild(subA);
+subLi.appendChild(subA)
 
-subUl.appendChild(subLi);
+sub.appendChild(subLi)
 
-});
+})
 
-li.appendChild(subUl);
-
-}
-
-ul.appendChild(li);
-
-});
-
-menuContainer.appendChild(ul);
+li.appendChild(sub)
 
 }
 
-function mostrarLogin(){
+ul.appendChild(li)
 
-document.getElementById("loginBox").classList.toggle("hidden");
+})
 
-}
-
-function login(){
-
-const user=document.getElementById("user").value;
-
-const pass=document.getElementById("pass").value;
-
-if(user==="admin" && pass==="1234"){
-
-alert("Acceso concedido");
-
-document.getElementById("adminControls").classList.remove("hidden");
-
-}else{
-
-alert("Credenciales incorrectas");
-
-}
+menu.appendChild(ul)
 
 }
 
 function agregarMenu(){
 
-const nombre=document.getElementById("nuevoNombre").value;
+const nombre=document.getElementById("nombreMenu").value
 
-const enlace=document.getElementById("nuevoEnlace").value;
+const enlace=document.getElementById("enlaceMenu").value
 
 if(!nombre || !enlace){
 
-alert("Complete los campos");
+alert("Complete los campos")
 
-return;
+return
 
 }
 
@@ -117,12 +114,110 @@ enlace:enlace,
 
 submenu:[]
 
-};
+}
 
-menuData.push(nuevo);
+menuData.push(nuevo)
 
-renderMenu();
+guardarDatos()
+
+renderMenu()
+
+renderAdmin()
 
 }
 
-cargarMenu();
+function renderAdmin(){
+
+const lista=document.getElementById("listaAdmin")
+
+lista.innerHTML=""
+
+menuData.forEach(item=>{
+
+const li=document.createElement("li")
+
+li.innerHTML=`
+${item.nombre}
+<button onclick="editarMenu(${item.id})">Editar</button>
+<button onclick="eliminarMenu(${item.id})">Eliminar</button>
+`
+
+lista.appendChild(li)
+
+})
+
+}
+
+function eliminarMenu(id){
+
+menuData=menuData.filter(m=>m.id!==id)
+
+guardarDatos()
+
+renderMenu()
+
+renderAdmin()
+
+}
+
+function editarMenu(id){
+
+const nuevoNombre=prompt("Nuevo nombre")
+
+const nuevoLink=prompt("Nuevo enlace")
+
+menuData.forEach(m=>{
+
+if(m.id===id){
+
+m.nombre=nuevoNombre
+
+m.enlace=nuevoLink
+
+}
+
+})
+
+guardarDatos()
+
+renderMenu()
+
+renderAdmin()
+
+}
+
+function mostrarLogin(){
+
+document.getElementById("loginBox").classList.toggle("hidden")
+
+}
+
+function login(){
+
+const user=document.getElementById("user").value
+
+const pass=document.getElementById("pass").value
+
+if(user==="admin" && pass==="1234"){
+
+alert("Acceso concedido")
+
+document.getElementById("adminPanel").classList.remove("hidden")
+
+}else{
+
+alert("Credenciales incorrectas")
+
+}
+
+}
+
+function toggleMenu(){
+
+const menu=document.querySelector("#menu ul")
+
+menu.classList.toggle("active")
+
+}
+
+cargarMenu()
