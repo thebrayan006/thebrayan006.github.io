@@ -7,110 +7,24 @@
 
 <link rel="stylesheet" href="style.css">
 
-<style>
-
-.adminTop{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
-.adminButtons button{
-margin-left:10px;
-padding:8px 14px;
-border:none;
-background:#111;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
-.adminButtons button:hover{
-background:#333;
-}
-
-input{
-padding:8px;
-width:220px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-table{
-width:100%;
-margin-top:20px;
-border-collapse:collapse;
-}
-
-th,td{
-padding:10px;
-text-align:center;
-}
-
-th{
-background:#111;
-color:white;
-}
-
-button{
-padding:6px 12px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-button:hover{
-opacity:.8;
-}
-
-.notificacion{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#111;
-color:white;
-padding:12px 18px;
-border-radius:8px;
-opacity:0;
-transform:translateY(20px);
-transition:all .3s;
-}
-
-.notificacion.show{
-opacity:1;
-transform:translateY(0);
-}
-
-</style>
-
 </head>
 
 <body>
 
 <div class="hero">
 
-<div class="adminTop">
-
 <h2>Panel Administrador</h2>
 
-<div class="adminButtons">
-
-<button onclick="window.location.href='index.html'">🏠 Inicio</button>
-
-<button onclick="logout()">🚪 Cerrar sesión</button>
-
-</div>
-
-</div>
-
-<input id="buscar" placeholder="Buscar menú..." onkeyup="buscarMenu()">
+<a href="index.html">
+<button>Ir al Inicio</button>
+</a>
 
 <br><br>
 
-<input id="nombre" placeholder="Nombre del menú">
+<h3>Agregar menú</h3>
 
-<input id="enlace" placeholder="Enlace">
+<input id="nombre" placeholder="Nombre">
+<input id="enlace" placeholder="Contenido">
 
 <button onclick="agregar()">Agregar</button>
 
@@ -121,10 +35,11 @@ transform:translateY(0);
 <thead>
 
 <tr>
+
 <th>ID</th>
 <th>Nombre</th>
-<th>Enlace</th>
 <th>Acciones</th>
+
 </tr>
 
 </thead>
@@ -135,19 +50,17 @@ transform:translateY(0);
 
 </div>
 
-<div id="noti" class="notificacion"></div>
-
 <script src="script.js"></script>
 
 <script>
 
 let tabla=document.getElementById("tablaMenu")
 
-function renderTabla(lista=menuData){
+function renderTabla(){
 
 tabla.innerHTML=""
 
-lista.forEach(item=>{
+menuData.forEach(item=>{
 
 tabla.innerHTML+=`
 
@@ -157,13 +70,13 @@ tabla.innerHTML+=`
 
 <td>${item.nombre}</td>
 
-<td>${item.enlace}</td>
-
 <td>
 
-<button onclick="editar(${item.id})">✏️ Editar</button>
+<button onclick="crearSub(${item.id})">Agregar Submenú</button>
 
-<button onclick="eliminar(${item.id})">🗑 Eliminar</button>
+<button onclick="editar(${item.id})">Editar</button>
+
+<button onclick="eliminar(${item.id})">Eliminar</button>
 
 </td>
 
@@ -180,89 +93,46 @@ function agregar(){
 let nombre=document.getElementById("nombre").value
 let enlace=document.getElementById("enlace").value
 
-if(nombre=="" || enlace==""){
-notificacion("Completa todos los campos")
-return
-}
-
 agregarMenu(nombre,enlace)
-
-document.getElementById("nombre").value=""
-document.getElementById("enlace").value=""
 
 renderTabla()
 
-notificacion("Menú agregado correctamente")
+}
+
+function crearSub(id){
+
+let nombre=prompt("Nombre del Submenú")
+
+agregarSubmenu(id,nombre)
+
+renderTabla()
+
 }
 
 function eliminar(id){
-
-if(!confirm("¿Seguro que deseas eliminar este menú?")) return
 
 eliminarMenu(id)
 
 renderTabla()
 
-notificacion("Menú eliminado")
 }
 
 function editar(id){
 
 let nombre=prompt("Nuevo nombre")
-let enlace=prompt("Nuevo enlace")
-
-if(!nombre || !enlace) return
+let enlace=prompt("Nuevo contenido")
 
 editarMenu(id,nombre,enlace)
 
 renderTabla()
 
-notificacion("Menú actualizado")
-}
-
-function buscarMenu(){
-
-let texto=document.getElementById("buscar").value.toLowerCase()
-
-let filtrado=menuData.filter(item=>
-
-item.nombre.toLowerCase().includes(texto)
-
-)
-
-renderTabla(filtrado)
-
-}
-
-function notificacion(msg){
-
-let n=document.getElementById("noti")
-
-n.innerText=msg
-
-n.classList.add("show")
-
-setTimeout(()=>{
-
-n.classList.remove("show")
-
-},2000)
-
-}
-
-function logout(){
-
-localStorage.removeItem("admin")
-
-window.location.href="login.html"
-
 }
 
 setTimeout(()=>{
 
 renderTabla()
 
-},500)
+},300)
 
 </script>
 
