@@ -17,6 +17,9 @@ margin:0;
 nav{
 background:#111;
 padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 nav ul{
@@ -31,11 +34,10 @@ nav li{
 color:white;
 cursor:pointer;
 position:relative;
-transition:all .3s;
 }
 
 nav li:hover{
-transform:translateY(-2px);
+color:#00d4ff;
 }
 
 nav ul ul{
@@ -47,6 +49,7 @@ background:#222;
 padding:10px;
 border-radius:6px;
 flex-direction:column;
+min-width:150px;
 }
 
 nav ul ul ul{
@@ -55,22 +58,29 @@ top:0;
 }
 
 nav li:hover > ul{
-display:flex;
+display:block;
 }
 
 nav ul ul li{
-padding:8px 15px;
-white-space:nowrap;
+padding:8px;
 }
 
-nav ul ul li:hover{
-background:#333;
+#loginBtn{
+
+background:#00d4ff;
+border:none;
+padding:8px 15px;
+border-radius:5px;
+cursor:pointer;
+
+}
+
+#loginBtn:hover{
+background:#009ec2;
 }
 
 #contenido{
-
 padding:40px;
-
 }
 
 </style>
@@ -82,6 +92,10 @@ padding:40px;
 <nav>
 
 <ul id="menu"></ul>
+
+<button id="loginBtn" onclick="window.location.href='login.html'">
+Login Administrador
+</button>
 
 </nav>
 
