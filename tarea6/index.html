@@ -14,6 +14,8 @@ font-family:Arial;
 margin:0;
 }
 
+/* NAVBAR */
+
 nav{
 background:#111;
 padding:15px;
@@ -21,6 +23,8 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 }
+
+/* MENU */
 
 nav ul{
 list-style:none;
@@ -34,44 +38,50 @@ nav li{
 color:white;
 cursor:pointer;
 position:relative;
+padding:5px 10px;
 }
 
 nav li:hover{
 color:#00d4ff;
 }
 
+/* SUBMENU OCULTO */
+
 nav ul ul{
 display:none;
 position:absolute;
-top:30px;
+top:35px;
 left:0;
 background:#222;
-padding:10px;
+padding:10px 0;
 border-radius:6px;
 flex-direction:column;
-min-width:150px;
+min-width:160px;
 }
 
-nav ul ul ul{
-left:150px;
-top:0;
+/* SUBMENU ITEMS */
+
+nav ul ul li{
+padding:10px 15px;
+white-space:nowrap;
 }
+
+/* MOSTRAR SOLO AL PASAR EL MOUSE */
 
 nav li:hover > ul{
 display:block;
 }
 
-nav ul ul li{
-padding:8px;
-}
+/* BOTON LOGIN */
 
 #loginBtn{
 
 background:#00d4ff;
 border:none;
 padding:8px 15px;
-border-radius:5px;
+border-radius:6px;
 cursor:pointer;
+font-weight:bold;
 
 }
 
@@ -79,8 +89,13 @@ cursor:pointer;
 background:#009ec2;
 }
 
+/* CONTENIDO PRINCIPAL */
+
 #contenido{
-padding:40px;
+
+padding:60px;
+text-align:center;
+
 }
 
 </style>
@@ -94,16 +109,18 @@ padding:40px;
 <ul id="menu"></ul>
 
 <button id="loginBtn" onclick="window.location.href='login.html'">
-Login Administrador
+Administrador
 </button>
 
 </nav>
 
 <div id="contenido">
 
-<h1>Bienvenido</h1>
+<h1>Bienvenido a Nuestro Sitio</h1>
 
-<p>Seleccione una opción del menú</p>
+<p>
+Explora nuestros servicios digitales, diseño web profesional y soluciones de marketing.
+</p>
 
 </div>
 
