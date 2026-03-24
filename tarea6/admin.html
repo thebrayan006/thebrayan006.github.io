@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<title>Panel Administrador</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+margin:40px;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+button{
+padding:8px 12px;
+margin:5px;
+border:none;
+border-radius:4px;
+cursor:pointer;
+}
+
+.add{
+background:#16a34a;
+color:white;
+}
+
+.delete{
+background:#dc2626;
+color:white;
+}
+
+.edit{
+background:#2563eb;
+color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Panel Administrador</h1>
+
+<button class="add" onclick="addItem()">Agregar opción</button>
+
+<ul id="menuList"></ul>
+
+<script>
+
+if(localStorage.getItem("auth")!="true"){
+location="login.html";
+}
+
+let menu = JSON.parse(localStorage.getItem("menuData")) || [];
+
+function render(){
+
+let html="";
+
+menu.forEach((item,index)=>{
+
+html+=`
+<li>
+
+${item.nombre}
+
+<button class="edit" onclick="editItem(${index})">Editar</button>
+
+<button class="delete" onclick="deleteItem(${index})">Eliminar</button>
+
+</li>
+`;
+
+});
+
+document.getElementById("menuList").innerHTML=html;
+
+}
+
+function addItem(){
+
+let nombre = prompt("Nombre del menú");
+
+menu.push({nombre});
+
+save();
+
+}
+
+function editItem(i){
+
+let nombre = prompt("Nuevo nombre",menu[i].nombre);
+
+menu[i].nombre=nombre;
+
+save();
+
+}
+
+function deleteItem(i){
+
+menu.splice(i,1);
+
+save();
+
+}
+
+function save(){
+
+localStorage.setItem("menuData",JSON.stringify(menu));
+
+render();
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
