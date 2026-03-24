@@ -1,42 +1,76 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Menú Dinámico</title>
+<title>Mi Sitio Web</title>
 
 <link rel="stylesheet" href="style.css">
+
+<style>
+
+nav ul{
+list-style:none;
+padding:0;
+display:flex;
+gap:20px;
+background:#111;
+padding:15px;
+}
+
+nav ul li{
+color:white;
+position:relative;
+cursor:pointer;
+}
+
+nav ul li ul{
+display:none;
+position:absolute;
+top:30px;
+left:0;
+background:#222;
+padding:10px;
+flex-direction:column;
+}
+
+nav ul li:hover ul{
+display:block;
+}
+
+nav ul li ul li{
+padding:8px;
+white-space:nowrap;
+}
+
+#contenido{
+margin-top:40px;
+padding:20px;
+background:#f4f4f4;
+border-radius:10px;
+}
+
+</style>
 
 </head>
 
 <body>
 
+<h1>Mi Sitio Web</h1>
+
 <nav>
 
-<div class="logo">Mi Sitio</div>
-
-<div class="hamburger" onclick="toggleMenu()">☰</div>
-
-<div id="menu">
-<ul></ul>
-</div>
-
-<a href="login.html" class="login-btn">Admin</a>
+<ul id="menu"></ul>
 
 </nav>
 
-<section class="hero">
+<div id="contenido">
 
-<h1>Bienvenido a Nuestro Sitio</h1>
+<h2>Bienvenido</h2>
 
-<p>
-Soluciones digitales modernas para tu negocio
-</p>
+<p>Seleccione una opción del menú para ver la información.</p>
 
-</section>
+</div>
 
 <script src="script.js"></script>
 
