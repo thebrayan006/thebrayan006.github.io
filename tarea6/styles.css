@@ -1,0 +1,57 @@
+body{
+font-family:Arial;
+margin:0;
+background:#f4f4f4;
+}
+
+header{
+background:#222;
+color:white;
+padding:20px;
+}
+
+#menu ul{
+list-style:none;
+padding:0;
+margin:0;
+display:flex;
+}
+
+#menu li{
+position:relative;
+}
+
+#menu a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+}
+
+#menu a:hover{
+background:#444;
+}
+
+.submenu{
+display:none;
+position:absolute;
+background:#333;
+flex-direction:column;
+}
+
+li:hover .submenu{
+display:block;
+}
+
+.admin-panel{
+padding:20px;
+}
+
+.hidden{
+display:none;
+}
+
+input{
+padding:8px;
+margin:5px;
+}
