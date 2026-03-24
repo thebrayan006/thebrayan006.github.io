@@ -1,63 +1,93 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Menú Dinámico Dashboard</title>
+<title>Empresa Digital</title>
 
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<header class="header">
+<header>
 
-<h1>Menú Dinámico</h1>
+<h1>Empresa Digital</h1>
 
-<div class="hamburger" onclick="toggleMenu()">☰</div>
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
 
 <nav id="menu"></nav>
 
 </header>
 
 
-<section class="admin">
+<section class="hero">
 
-<h2>Panel Administrador</h2>
-
-<button onclick="mostrarLogin()">Login</button>
-
-<div id="loginBox" class="hidden">
-
-<input type="text" id="user" placeholder="Usuario">
-<input type="password" id="pass" placeholder="Contraseña">
-
-<button onclick="login()">Entrar</button>
-
-</div>
-
-
-<div id="adminPanel" class="hidden">
-
-<h3>Administrar menú</h3>
-
-<input type="text" id="nombreMenu" placeholder="Nombre">
-<input type="text" id="enlaceMenu" placeholder="Enlace">
-
-<button onclick="agregarMenu()">Agregar</button>
-
-<ul id="listaAdmin"></ul>
-
-</div>
+<h2>Bienvenido</h2>
+<p>Soluciones digitales para tu negocio</p>
 
 </section>
 
 
-<script src="script.js?v=2"></script>
+<script>
+
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
+
+async function cargarMenu(){
+
+let data = localStorage.getItem("menuData");
+
+if(data){
+renderMenu(JSON.parse(data));
+return;
+}
+
+const response = await fetch("menu.json");
+const menu = await response.json();
+
+localStorage.setItem("menuData", JSON.stringify(menu));
+
+renderMenu(menu);
+}
+
+function renderMenu(menu){
+
+let html = "<ul>";
+
+menu.forEach(item=>{
+
+if(item.submenu){
+
+html += `
+<li class="dropdown">
+${item.nombre}
+<ul class="submenu">
+${item.submenu.map(sub=>`<li>${sub}</li>`).join("")}
+</ul>
+</li>
+`;
+
+}else{
+
+html += `<li>${item.nombre}</li>`;
+
+}
+
+});
+
+html += "</ul>";
+
+document.getElementById("menu").innerHTML = html;
+
+}
+
+cargarMenu();
+
+</script>
 
 </body>
 </html>
