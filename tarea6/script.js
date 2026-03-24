@@ -1,213 +1,122 @@
-let menuData=[]
+let menuData=[];
 
 async function cargarMenu(){
 
-const local=localStorage.getItem("menuData")
+let savedMenu=localStorage.getItem("menuData");
 
-if(local){
+if(savedMenu){
 
-menuData=JSON.parse(local)
+menuData=JSON.parse(savedMenu);
+renderMenu(menuData);
 
-renderMenu()
+}else{
 
-renderAdmin()
+let response=await fetch("./menu.json");
+let data=await response.json();
 
-return
+menuData=data.menu;
 
-}
-
-const response=await fetch("menu.json")
-
-const data=await response.json()
-
-menuData=data.menu
-
-guardarDatos()
-
-renderMenu()
-
-renderAdmin()
+renderMenu(menuData);
 
 }
 
-function guardarDatos(){
+}
 
-localStorage.setItem("menuData",JSON.stringify(menuData))
+function renderMenu(menu){
+
+const menuContainer=document.querySelector("#menu ul");
+
+if(!menuContainer) return;
+
+menuContainer.innerHTML="";
+
+menu.forEach(item=>{
+
+let li=document.createElement("li");
+
+let a=document.createElement("a");
+
+a.href=item.enlace;
+a.textContent=item.nombre;
+
+li.appendChild(a);
+
+if(item.submenu){
+
+let subUl=document.createElement("ul");
+
+item.submenu.forEach(sub=>{
+
+let subLi=document.createElement("li");
+
+let subA=document.createElement("a");
+
+subA.href=sub.enlace;
+subA.textContent=sub.nombre;
+
+subLi.appendChild(subA);
+
+subUl.appendChild(subLi);
+
+});
+
+li.appendChild(subUl);
 
 }
 
-function renderMenu(){
+menuContainer.appendChild(li);
 
-const menu=document.getElementById("menu")
-
-menu.innerHTML=""
-
-const ul=document.createElement("ul")
-
-menuData.forEach(item=>{
-
-const li=document.createElement("li")
-
-const a=document.createElement("a")
-
-a.textContent=item.nombre
-
-a.href=item.enlace
-
-li.appendChild(a)
-
-if(item.submenu && item.submenu.length>0){
-
-const sub=document.createElement("ul")
-
-item.submenu.forEach(s=>{
-
-const subLi=document.createElement("li")
-
-const subA=document.createElement("a")
-
-subA.textContent=s.nombre
-
-subA.href=s.enlace
-
-subLi.appendChild(subA)
-
-sub.appendChild(subLi)
-
-})
-
-li.appendChild(sub)
+});
 
 }
 
-ul.appendChild(li)
+function guardarMenu(){
 
-})
+localStorage.setItem("menuData",JSON.stringify(menuData));
 
-menu.appendChild(ul)
-
-}
-
-function agregarMenu(){
-
-const nombre=document.getElementById("nombreMenu").value
-const enlace=document.getElementById("enlaceMenu").value
-
-if(!nombre || !enlace){
-
-alert("Complete los campos")
-
-return
+renderMenu(menuData);
 
 }
 
-const nuevo={
-id:Date.now(),
-nombre:nombre,
-enlace:enlace,
-submenu:[]
-}
+function agregarMenu(nombre,enlace){
 
-menuData.push(nuevo)
+let id=Date.now();
 
-guardarDatos()
+menuData.push({
+id,
+nombre,
+enlace
+});
 
-renderMenu()
-
-renderAdmin()
-
-}
-
-function renderAdmin(){
-
-const lista=document.getElementById("listaAdmin")
-
-lista.innerHTML=""
-
-menuData.forEach(item=>{
-
-const li=document.createElement("li")
-
-li.innerHTML=`
-${item.nombre}
-<button onclick="editarMenu(${item.id})">Editar</button>
-<button onclick="eliminarMenu(${item.id})">Eliminar</button>
-`
-
-lista.appendChild(li)
-
-})
+guardarMenu();
 
 }
 
 function eliminarMenu(id){
 
-menuData=menuData.filter(m=>m.id!==id)
+menuData=menuData.filter(item=>item.id!=id);
 
-guardarDatos()
-
-renderMenu()
-
-renderAdmin()
+guardarMenu();
 
 }
 
-function editarMenu(id){
+function editarMenu(id,nombre,enlace){
 
-const nuevoNombre=prompt("Nuevo nombre")
+menuData=menuData.map(item=>{
 
-const nuevoLink=prompt("Nuevo enlace")
+if(item.id==id){
 
-menuData.forEach(m=>{
-
-if(m.id===id){
-
-m.nombre=nuevoNombre
-m.enlace=nuevoLink
+item.nombre=nombre;
+item.enlace=enlace;
 
 }
 
-})
+return item;
 
-guardarDatos()
+});
 
-renderMenu()
-
-renderAdmin()
+guardarMenu();
 
 }
 
-function mostrarLogin(){
-
-document.getElementById("loginBox").classList.toggle("hidden")
-
-}
-
-function login(){
-
-const user=document.getElementById("user").value
-const pass=document.getElementById("pass").value
-
-if(user==="admin" && pass==="1234"){
-
-alert("Acceso concedido")
-
-document.getElementById("adminPanel").classList.remove("hidden")
-
-}else{
-
-alert("Credenciales incorrectas")
-
-}
-
-}
-
-function toggleMenu(){
-
-const menu=document.querySelector("#menu ul")
-
-menu.classList.toggle("active")
-
-}
-
-cargarMenu()
+document.addEventListener("DOMContentLoaded",cargarMenu);
