@@ -1,4 +1,8 @@
-let menuData = JSON.parse(localStorage.getItem("menuData")) || [
+/* ========================= */
+/* MENU BASE */
+/* ========================= */
+
+const menuBase = [
 
 {
 id:1,
@@ -37,7 +41,19 @@ submenu:[]
 ]
 
 /* ========================= */
-/* GUARDAR MENU */
+/* CARGAR MENU */
+/* ========================= */
+
+let menuData = JSON.parse(localStorage.getItem("menuData"))
+
+if(!menuData){
+
+menuData = [...menuBase]
+
+guardarMenu()
+
+}
+
 /* ========================= */
 
 function guardarMenu(){
@@ -47,29 +63,10 @@ localStorage.setItem("menuData",JSON.stringify(menuData))
 }
 
 /* ========================= */
-/* NORMALIZAR DATOS */
-/* EVITA QUE EL MENU SE ROMPA */
-/* ========================= */
-
-function normalizarMenu(){
-
-menuData.forEach(item=>{
-
-if(!Array.isArray(item.submenu)){
-item.submenu=[]
-}
-
-})
-
-}
-
-/* ========================= */
-/* RENDER DEL MENU */
+/* RENDER MENU */
 /* ========================= */
 
 function renderMenu(){
-
-normalizarMenu()
 
 let nav=document.getElementById("menu")
 
@@ -81,11 +78,11 @@ menuData.forEach(item=>{
 
 let li=document.createElement("li")
 
-li.innerHTML=`${item.icon || ""} ${item.nombre || ""}`
+li.innerHTML=`${item.icon || ""} ${item.nombre}`
 
-/* SI TIENE SUBMENU */
+/* SUBMENU */
 
-if(Array.isArray(item.submenu) && item.submenu.length>0){
+if(item.submenu && item.submenu.length>0){
 
 let ul=document.createElement("ul")
 
@@ -96,7 +93,7 @@ let subli=document.createElement("li")
 let link=document.createElement("a")
 
 link.href=sub.link || "#"
-link.textContent=sub.nombre || "Submenu"
+link.textContent=sub.nombre
 
 link.style.color="white"
 link.style.textDecoration="none"
@@ -113,7 +110,7 @@ li.appendChild(ul)
 
 }
 
-/* SI NO TIENE SUBMENU */
+/* CONTENIDO */
 
 else{
 
@@ -127,8 +124,6 @@ nav.appendChild(li)
 
 }
 
-/* ========================= */
-/* MOSTRAR CONTENIDO */
 /* ========================= */
 
 function mostrarContenido(texto){
@@ -166,19 +161,20 @@ submenu:[]
 })
 
 guardarMenu()
+
 renderMenu()
 
 }
 
+/* ========================= */
+
 function agregarSubmenu(idPadre,nombre,link){
 
-let padre = menuData.find(i=>i.id==idPadre)
+let padre=menuData.find(i=>i.id==idPadre)
 
 if(!padre) return
 
-if(!Array.isArray(padre.submenu)){
-padre.submenu=[]
-}
+if(!padre.submenu) padre.submenu=[]
 
 padre.submenu.push({
 
@@ -189,22 +185,28 @@ link:link || "#"
 })
 
 guardarMenu()
+
 renderMenu()
 
 }
+
+/* ========================= */
 
 function eliminarMenu(id){
 
 menuData = menuData.filter(item=>item.id!=id)
 
 guardarMenu()
+
 renderMenu()
 
 }
 
+/* ========================= */
+
 function editarMenu(id,nombre,contenido){
 
-let item = menuData.find(i=>i.id==id)
+let item=menuData.find(i=>i.id==id)
 
 if(!item) return
 
@@ -212,13 +214,11 @@ item.nombre = nombre || item.nombre
 item.contenido = contenido || item.contenido
 
 guardarMenu()
+
 renderMenu()
 
 }
 
 /* ========================= */
-/* INICIAR MENU */
-/* ========================= */
 
-normalizarMenu()
 renderMenu()
