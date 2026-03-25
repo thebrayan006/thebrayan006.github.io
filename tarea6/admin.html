@@ -36,12 +36,13 @@ border-collapse:collapse;
 th,td{
 padding:10px;
 border:1px solid #ccc;
+text-align:center;
 }
 
-input,select{
+input{
 padding:6px;
 margin-bottom:10px;
-width:200px;
+width:250px;
 }
 
 </style>
@@ -54,49 +55,40 @@ width:200px;
 
 <div class="admin-top">
 
-<div>
 <button onclick="window.location.href='index.html'">
 Inicio
 </button>
-</div>
 
-<div>
 <button onclick="cerrarSesion()">
 Cerrar Sesión
 </button>
-</div>
 
 </div>
 
 <h2>Administrador del Menú</h2>
 
+<h3>Crear nuevo menú</h3>
+
 <input id="nombre" placeholder="Nombre del menú"><br>
 
-<input id="contenido" placeholder="Contenido"><br>
-
-<label>¿Tiene Submenú?</label><br>
-
-<select id="submenu">
-<option value="no">No</option>
-<option value="si">Sí</option>
-</select>
-
-<br><br>
+<input id="contenido" placeholder="Contenido o descripción"><br>
 
 <button onclick="agregar()">Agregar</button>
 
-<h3>Opciones del menú</h3>
+<h3>Menús existentes</h3>
 
 <table>
 
 <thead>
 
 <tr>
+
 <th>ID</th>
 <th>Nombre</th>
 <th>Contenido</th>
-<th>Submenu</th>
+<th>Submenús</th>
 <th>Acciones</th>
+
 </tr>
 
 </thead>
@@ -107,17 +99,11 @@ Cerrar Sesión
 
 </div>
 
+<script src="script.js"></script>
+
 <script>
 
 let tabla = document.getElementById("tablaMenu")
-
-let menuData = JSON.parse(localStorage.getItem("menuData")) || []
-
-function guardar(){
-
-localStorage.setItem("menuData",JSON.stringify(menuData))
-
-}
 
 function renderTabla(){
 
@@ -125,7 +111,9 @@ tabla.innerHTML=""
 
 menuData.forEach(item=>{
 
-tabla.innerHTML+=`
+let cantidadSub = item.submenu ? item.submenu.length : 0
+
+tabla.innerHTML += `
 
 <tr>
 
@@ -133,15 +121,17 @@ tabla.innerHTML+=`
 
 <td>${item.nombre}</td>
 
-<td>${item.contenido}</td>
+<td>${item.contenido || "-"}</td>
 
-<td>${item.submenu}</td>
+<td>${cantidadSub}</td>
 
 <td>
 
 <button onclick="editar(${item.id})">Editar</button>
 
 <button onclick="eliminar(${item.id})">Eliminar</button>
+
+<button onclick="crearSubmenu(${item.id})">Submenu</button>
 
 </td>
 
@@ -155,30 +145,15 @@ tabla.innerHTML+=`
 
 function agregar(){
 
-let nombre=document.getElementById("nombre").value
-let contenido=document.getElementById("contenido").value
-let submenu=document.getElementById("submenu").value
+let nombre = document.getElementById("nombre").value
+let contenido = document.getElementById("contenido").value
 
-if(nombre=="" || contenido==""){
-
-alert("Debes completar los campos")
-
+if(nombre===""){
+alert("Debes escribir un nombre")
 return
-
 }
 
-let nuevo={
-
-id: Date.now(),
-nombre:nombre,
-contenido:contenido,
-submenu:submenu
-
-}
-
-menuData.push(nuevo)
-
-guardar()
+agregarMenu(nombre,contenido)
 
 renderTabla()
 
@@ -189,27 +164,39 @@ document.getElementById("contenido").value=""
 
 function eliminar(id){
 
-menuData = menuData.filter(item=>item.id!==id)
+if(confirm("¿Eliminar este menú?")){
 
-guardar()
+eliminarMenu(id)
 
 renderTabla()
 
 }
 
+}
+
 function editar(id){
 
-let item = menuData.find(i=>i.id===id)
+let item = menuData.find(i=>i.id==id)
 
-let nombre=prompt("Nuevo nombre",item.nombre)
-let contenido=prompt("Nuevo contenido",item.contenido)
+let nombre = prompt("Nuevo nombre", item.nombre)
 
-if(nombre!==null && contenido!==null){
+let contenido = prompt("Nuevo contenido", item.contenido)
 
-item.nombre=nombre
-item.contenido=contenido
+editarMenu(id,nombre,contenido)
 
-guardar()
+renderTabla()
+
+}
+
+function crearSubmenu(id){
+
+let nombre = prompt("Nombre del submenú")
+
+let link = prompt("Página destino (ejemplo: pagina.html)")
+
+if(nombre && link){
+
+agregarSubmenu(id,nombre,link)
 
 renderTabla()
 
