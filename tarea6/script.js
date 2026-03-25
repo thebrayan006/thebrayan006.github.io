@@ -41,24 +41,44 @@ submenu:[]
 ]
 
 /* ========================= */
-/* CARGAR MENU */
+/* CARGAR LOCAL STORAGE */
 /* ========================= */
 
-let menuData = JSON.parse(localStorage.getItem("menuData"))
+let menuGuardado = JSON.parse(localStorage.getItem("menuData"))
 
-if(!menuData){
+/* SI NO EXISTE LOCALSTORAGE */
 
-menuData = [...menuBase]
+if(!menuGuardado){
 
-guardarMenu()
+localStorage.setItem("menuData", JSON.stringify(menuBase))
+
+menuGuardado = [...menuBase]
 
 }
+
+/* ========================= */
+/* FUSIONAR MENU BASE + GUARDADO */
+/* ========================= */
+
+let menuData = [...menuBase]
+
+menuGuardado.forEach(item=>{
+
+if(!menuData.find(i=>i.id === item.id)){
+
+menuData.push(item)
+
+}
+
+})
+
+guardarMenu()
 
 /* ========================= */
 
 function guardarMenu(){
 
-localStorage.setItem("menuData",JSON.stringify(menuData))
+localStorage.setItem("menuData", JSON.stringify(menuData))
 
 }
 
@@ -68,32 +88,32 @@ localStorage.setItem("menuData",JSON.stringify(menuData))
 
 function renderMenu(){
 
-let nav=document.getElementById("menu")
+let nav = document.getElementById("menu")
 
 if(!nav) return
 
-nav.innerHTML=""
+nav.innerHTML = ""
 
 menuData.forEach(item=>{
 
-let li=document.createElement("li")
+let li = document.createElement("li")
 
-li.innerHTML=`${item.icon || ""} ${item.nombre}`
+li.innerHTML = `${item.icon || ""} ${item.nombre}`
 
 /* SUBMENU */
 
-if(item.submenu && item.submenu.length>0){
+if(item.submenu && item.submenu.length > 0){
 
-let ul=document.createElement("ul")
+let ul = document.createElement("ul")
 
 item.submenu.forEach(sub=>{
 
-let subli=document.createElement("li")
+let subli = document.createElement("li")
 
-let link=document.createElement("a")
+let link = document.createElement("a")
 
-link.href=sub.link || "#"
-link.textContent=sub.nombre
+link.href = sub.link || "#"
+link.textContent = sub.nombre
 
 link.style.color="white"
 link.style.textDecoration="none"
@@ -114,7 +134,7 @@ li.appendChild(ul)
 
 else{
 
-li.onclick=()=>mostrarContenido(item.contenido || "")
+li.onclick = ()=> mostrarContenido(item.contenido || "")
 
 }
 
@@ -128,14 +148,13 @@ nav.appendChild(li)
 
 function mostrarContenido(texto){
 
-let cont=document.getElementById("contenido")
+let cont = document.getElementById("contenido")
 
 if(!cont) return
 
-cont.innerHTML=`
+cont.innerHTML = `
 
 <h2>Información</h2>
-
 <p>${texto}</p>
 
 `
@@ -152,10 +171,10 @@ if(!nombre) return
 
 menuData.push({
 
-id:Date.now(),
-nombre:nombre,
+id: Date.now(),
+nombre: nombre,
 icon:"📌",
-contenido:contenido || "",
+contenido: contenido || "",
 submenu:[]
 
 })
@@ -170,7 +189,7 @@ renderMenu()
 
 function agregarSubmenu(idPadre,nombre,link){
 
-let padre=menuData.find(i=>i.id==idPadre)
+let padre = menuData.find(i=>i.id==idPadre)
 
 if(!padre) return
 
@@ -178,9 +197,9 @@ if(!padre.submenu) padre.submenu=[]
 
 padre.submenu.push({
 
-id:Date.now(),
-nombre:nombre || "Submenu",
-link:link || "#"
+id: Date.now(),
+nombre: nombre || "Submenu",
+link: link || "#"
 
 })
 
@@ -206,7 +225,7 @@ renderMenu()
 
 function editarMenu(id,nombre,contenido){
 
-let item=menuData.find(i=>i.id==id)
+let item = menuData.find(i=>i.id==id)
 
 if(!item) return
 
