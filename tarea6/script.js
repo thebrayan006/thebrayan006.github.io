@@ -36,8 +36,31 @@ submenu:[]
 
 ]
 
+/* ========================= */
+/* GUARDAR MENU */
+/* ========================= */
+
 function guardarMenu(){
+
 localStorage.setItem("menuData",JSON.stringify(menuData))
+
+}
+
+/* ========================= */
+/* NORMALIZAR DATOS */
+/* EVITA QUE EL MENU SE ROMPA */
+/* ========================= */
+
+function normalizarMenu(){
+
+menuData.forEach(item=>{
+
+if(!Array.isArray(item.submenu)){
+item.submenu=[]
+}
+
+})
+
 }
 
 /* ========================= */
@@ -46,7 +69,10 @@ localStorage.setItem("menuData",JSON.stringify(menuData))
 
 function renderMenu(){
 
+normalizarMenu()
+
 let nav=document.getElementById("menu")
+
 if(!nav) return
 
 nav.innerHTML=""
@@ -59,7 +85,7 @@ li.innerHTML=`${item.icon || ""} ${item.nombre || ""}`
 
 /* SI TIENE SUBMENU */
 
-if(item.submenu && item.submenu.length > 0){
+if(Array.isArray(item.submenu) && item.submenu.length>0){
 
 let ul=document.createElement("ul")
 
@@ -69,8 +95,8 @@ let subli=document.createElement("li")
 
 let link=document.createElement("a")
 
-link.href = sub.link || "#"
-link.textContent = sub.nombre || "Submenu"
+link.href=sub.link || "#"
+link.textContent=sub.nombre || "Submenu"
 
 link.style.color="white"
 link.style.textDecoration="none"
@@ -78,6 +104,7 @@ link.style.display="block"
 link.style.padding="8px 15px"
 
 subli.appendChild(link)
+
 ul.appendChild(subli)
 
 })
@@ -100,14 +127,20 @@ nav.appendChild(li)
 
 }
 
+/* ========================= */
+/* MOSTRAR CONTENIDO */
+/* ========================= */
+
 function mostrarContenido(texto){
 
 let cont=document.getElementById("contenido")
+
 if(!cont) return
 
 cont.innerHTML=`
 
 <h2>Información</h2>
+
 <p>${texto}</p>
 
 `
@@ -143,7 +176,9 @@ let padre = menuData.find(i=>i.id==idPadre)
 
 if(!padre) return
 
-if(!padre.submenu) padre.submenu=[]
+if(!Array.isArray(padre.submenu)){
+padre.submenu=[]
+}
 
 padre.submenu.push({
 
@@ -181,4 +216,9 @@ renderMenu()
 
 }
 
+/* ========================= */
+/* INICIAR MENU */
+/* ========================= */
+
+normalizarMenu()
 renderMenu()
