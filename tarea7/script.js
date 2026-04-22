@@ -1,93 +1,289 @@
-let persona = JSON.parse(localStorage.getItem("persona")) || {
-nombre:"",
-cedula:"",
-edad:"",
-familiares:[],
-condiciones:[],
-internamientos:[]
+// =============================
+// ESTRUCTURA GLOBAL DEL REGISTRO
+// =============================
+
+let registro = {
+    datosPersonales: {},
+    familiares: [],
+    salud: [],
+    internamientos: []
 };
 
-function guardarPersona(){
 
-persona.nombre=document.getElementById("nombre").value;
-persona.cedula=document.getElementById("cedula").value;
-persona.edad=document.getElementById("edad").value;
+// =============================
+// GUARDAR DATOS PERSONALES
+// =============================
 
-localStorage.setItem("persona",JSON.stringify(persona));
+function guardarDatosPersonales(){
 
-alert("Datos guardados");
+    let nombre = document.getElementById("nombre").value;
+    let cedula = document.getElementById("cedula").value;
+    let edad = document.getElementById("edad").value;
+
+    registro.datosPersonales = {
+        nombre:nombre,
+        cedula:cedula,
+        edad:edad
+    };
+
+    localStorage.setItem("registroTemporal", JSON.stringify(registro));
+
+    window.location.href = "familiares.html";
+
+}
+
+
+// =============================
+// FAMILIARES
+// =============================
+
+function cargarFamiliares(){
+
+    let temp = localStorage.getItem("registroTemporal");
+
+    if(temp){
+        registro = JSON.parse(temp);
+    }
+
 }
 
 function agregarFamiliar(){
 
-let nombre=document.getElementById("familiar").value;
-let parentesco=document.getElementById("parentesco").value;
-let edad=document.getElementById("edadFamiliar").value;
+    let nombre = document.getElementById("nombreFamiliar").value;
+    let parentesco = document.getElementById("parentesco").value;
+    let edad = document.getElementById("edadFamiliar").value;
 
-persona.familiares.push({nombre,parentesco,edad});
+    let familiar = {
+        nombre:nombre,
+        parentesco:parentesco,
+        edad:edad
+    };
 
-localStorage.setItem("persona",JSON.stringify(persona));
+    registro.familiares.push(familiar);
 
-mostrarFamiliares();
+    localStorage.setItem("registroTemporal", JSON.stringify(registro));
+
+    alert("Familiar agregado");
+
+    document.getElementById("nombreFamiliar").value="";
+    document.getElementById("parentesco").value="";
+    document.getElementById("edadFamiliar").value="";
+
 }
 
-function mostrarFamiliares(){
+function continuarSalud(){
 
-let tabla=document.getElementById("tablaFamiliares");
+    localStorage.setItem("registroTemporal", JSON.stringify(registro));
 
-persona.familiares.forEach(f=>{
+    window.location.href="salud.html";
 
-let fila=tabla.insertRow();
+}
 
-fila.insertCell(0).innerText=f.nombre;
-fila.insertCell(1).innerText=f.parentesco;
-fila.insertCell(2).innerText=f.edad;
 
-});
+// =============================
+// SALUD
+// =============================
+
+function cargarSalud(){
+
+    let temp = localStorage.getItem("registroTemporal");
+
+    if(temp){
+        registro = JSON.parse(temp);
+    }
+
 }
 
 function agregarCondicion(){
 
-let enfermedad=document.getElementById("enfermedad").value;
-let tiempo=document.getElementById("tiempo").value;
+    let enfermedad = document.getElementById("enfermedad").value;
+    let tiempo = document.getElementById("tiempo").value;
 
-persona.condiciones.push({enfermedad,tiempo});
+    let condicion = {
+        enfermedad:enfermedad,
+        tiempo:tiempo
+    };
 
-localStorage.setItem("persona",JSON.stringify(persona));
+    registro.salud.push(condicion);
+
+    localStorage.setItem("registroTemporal", JSON.stringify(registro));
+
+    alert("Condición agregada");
+
+    document.getElementById("enfermedad").value="";
+    document.getElementById("tiempo").value="";
+
+}
+
+function continuarInternamientos(){
+
+    localStorage.setItem("registroTemporal", JSON.stringify(registro));
+
+    window.location.href="internamientos.html";
+
+}
+
+
+// =============================
+// INTERNAMIENTOS
+// =============================
+
+function cargarInternamientos(){
+
+    let temp = localStorage.getItem("registroTemporal");
+
+    if(temp){
+        registro = JSON.parse(temp);
+    }
+
 }
 
 function agregarInternamiento(){
 
-let fecha=document.getElementById("fecha").value;
-let centro=document.getElementById("centro").value;
-let diagnostico=document.getElementById("diagnostico").value;
+    let fecha = document.getElementById("fecha").value;
+    let centro = document.getElementById("centro").value;
+    let diagnostico = document.getElementById("diagnostico").value;
 
-persona.internamientos.push({fecha,centro,diagnostico});
+    let internamiento = {
+        fecha:fecha,
+        centro:centro,
+        diagnostico:diagnostico
+    };
 
-localStorage.setItem("persona",JSON.stringify(persona));
+    registro.internamientos.push(internamiento);
+
+    localStorage.setItem("registroTemporal", JSON.stringify(registro));
+
+    alert("Internamiento agregado");
+
+    document.getElementById("fecha").value="";
+    document.getElementById("centro").value="";
+    document.getElementById("diagnostico").value="";
+
 }
 
-function mostrarDatos(){
+function finalizarRegistro(){
 
-let data=JSON.parse(localStorage.getItem("persona"));
+    let registros = localStorage.getItem("registros");
 
-let div=document.getElementById("resultado");
+    if(registros==null){
+        registros = [];
+    }else{
+        registros = JSON.parse(registros);
+    }
 
-div.innerHTML=`
+    registros.push(registro);
 
-<h3>Datos Personales</h3>
-Nombre: ${data.nombre}<br>
-Cédula: ${data.cedula}<br>
-Edad: ${data.edad}<br>
+    localStorage.setItem("registros", JSON.stringify(registros));
 
-<h3>Familiares</h3>
-${data.familiares.map(f=>`${f.nombre} - ${f.parentesco} - ${f.edad}`).join("<br>")}
+    localStorage.removeItem("registroTemporal");
 
-<h3>Condiciones</h3>
-${data.condiciones.map(c=>`${c.enfermedad} - ${c.tiempo}`).join("<br>")}
+    window.location.href="resumen.html";
 
-<h3>Internamientos</h3>
-${data.internamientos.map(i=>`${i.fecha} - ${i.centro} - ${i.diagnostico}`).join("<br>")}
-
-`;
 }
+
+
+// =============================
+// RESUMEN
+// =============================
+
+function obtenerRegistros(){
+
+    let registros = localStorage.getItem("registros");
+
+    if(registros == null){
+        return [];
+    }else{
+        return JSON.parse(registros);
+    }
+
+}
+
+
+function mostrarRegistros(){
+
+    let registros = obtenerRegistros();
+
+    let tabla = document.querySelector("#tabla tbody");
+
+    if(!tabla) return;
+
+    tabla.innerHTML="";
+
+    registros.forEach((registro,index)=>{
+
+        let fila = `
+        <tr>
+
+        <td>${registro.datosPersonales.nombre}</td>
+        <td>${registro.datosPersonales.cedula}</td>
+        <td>${registro.datosPersonales.edad}</td>
+
+        <td>
+        <button onclick="editarRegistro(${index})">Editar</button>
+        <button onclick="eliminarRegistro(${index})">Eliminar</button>
+        </td>
+
+        </tr>
+        `;
+
+        tabla.innerHTML += fila;
+
+    });
+
+}
+
+
+// =============================
+// ELIMINAR REGISTRO
+// =============================
+
+function eliminarRegistro(index){
+
+    let registros = obtenerRegistros();
+
+    if(confirm("¿Desea eliminar este registro?")){
+
+        registros.splice(index,1);
+
+        localStorage.setItem("registros", JSON.stringify(registros));
+
+        mostrarRegistros();
+
+    }
+
+}
+
+
+// =============================
+// EDITAR REGISTRO
+// =============================
+
+function editarRegistro(index){
+
+    let registros = obtenerRegistros();
+
+    let registroEditar = registros[index];
+
+    let nombre = prompt("Editar nombre",registroEditar.datosPersonales.nombre);
+    let cedula = prompt("Editar cedula",registroEditar.datosPersonales.cedula);
+    let edad = prompt("Editar edad",registroEditar.datosPersonales.edad);
+
+    registros[index].datosPersonales = {
+        nombre:nombre,
+        cedula:cedula,
+        edad:edad
+    };
+
+    localStorage.setItem("registros", JSON.stringify(registros));
+
+    mostrarRegistros();
+
+}
+
+
+// =============================
+// CARGA AUTOMÁTICA
+// =============================
+
+document.addEventListener("DOMContentLoaded",mostrarRegistros);
