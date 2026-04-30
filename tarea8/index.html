@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Tarea 8</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Generador de Contacto QR</title>
+
+<link rel="stylesheet" href="estilos.css">
+
 </head>
+
 <body>
 
-    <h1>Tarea 8</h1>
-    <p>Esta página corresponde a la 8va tarea del curso.</p>
+<h1>Formulario de Contacto</h1>
+
+<div class="container">
+
+<label>Nombre</label>
+<input type="text" id="nombre">
+
+<label>Teléfono</label>
+<input type="text" id="telefono">
+
+<label>Email</label>
+<input type="email" id="email">
+
+<label>Dirección</label>
+<input type="text" id="direccion">
+
+<button onclick="generarQR()">Generar QR</button>
+
+<div id="qr"></div>
+
+</div>
+
+<!-- LIBRERIA QR -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="script.js"></script>
 
 </body>
+
 </html>
