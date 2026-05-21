@@ -1,7 +1,22 @@
-const API_KEY = "AIzaSyC3rfB7WoEGVRmSwXmkQD4PKA3XyMGF-jY";
+let baseConocimiento = "";
 
 
-async function enviarPregunta(){
+// CARGAR TXT
+
+fetch("uasd.txt")
+.then(response => response.text())
+.then(data => {
+
+baseConocimiento = data.toLowerCase();
+
+console.log("Base de conocimiento cargada");
+
+});
+
+
+// ENVIAR PREGUNTA
+
+function enviarPregunta(){
 
 let input = document.getElementById("pregunta");
 
@@ -16,130 +31,134 @@ agregarMensaje(texto,"user");
 input.value = "";
 
 
-// MENSAJE CARGANDO
-let loading = agregarMensaje(
-"Pensando...",
-"bot"
-);
-
-
-try{
-
-let prompt = `
-Eres un chatbot especializado en el Estatuto Orgánico de la UASD.
-
-Responde solamente preguntas relacionadas con:
-- estudiantes
-- docentes
-- rector
-- facultades
-- misión
-- visión
-- estatuto
-- consejos universitarios
-
-Si la pregunta no tiene relación con la UASD responde:
-"Solo puedo responder preguntas relacionadas con la UASD."
-
-Pregunta:
-${texto}
-`;
-
-
-// PETICION A GEMINI
-let response = await fetch(
-
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
-
-{
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-contents:[
-
-{
-parts:[
-{
-text:prompt
-}
-]
-}
-
-]
-
-})
-
-}
-
-);
-
-
-// RESPUESTA JSON
-let data = await response.json();
-
-console.log(data);
-
-
-// QUITAR LOADING
-loading.remove();
-
-
-// VALIDAR ERROR
-if(data.error){
-
-agregarMensaje(
-"Error IA: " + data.error.message,
-"bot"
-);
-
-return;
-
-}
-
-
-// VALIDAR RESPUESTA
-if(
-
-data.candidates &&
-data.candidates.length > 0 &&
-data.candidates[0].content &&
-data.candidates[0].content.parts &&
-data.candidates[0].content.parts.length > 0
-
-){
+// RESPUESTA
+setTimeout(()=>{
 
 let respuesta =
-data.candidates[0].content.parts[0].text;
+buscarRespuesta(texto.toLowerCase());
 
 agregarMensaje(respuesta,"bot");
 
-}else{
-
-agregarMensaje(
-"No pude generar respuesta.",
-"bot"
-);
+},700);
 
 }
 
 
-}catch(error){
+// BUSCAR RESPUESTAS
 
-loading.remove();
+function buscarRespuesta(pregunta){
 
-agregarMensaje(
-"Error conectando con Gemini.",
-"bot"
-);
+if(
+pregunta.includes("uasd")
+){
 
-console.error(error);
+return "La UASD es una institución pública y autónoma de educación superior de la República Dominicana.";
 
 }
+
+
+if(
+pregunta.includes("misión")
+){
+
+return "La misión de la UASD es formar profesionales, investigadores y técnicos con valores éticos y capacidad crítica.";
+
+}
+
+
+if(
+pregunta.includes("visión")
+){
+
+return "La visión de la UASD es ser una universidad moderna, innovadora y comprometida con el desarrollo nacional.";
+
+}
+
+
+if(
+pregunta.includes("claustro mayor")
+){
+
+return "El Claustro Mayor es el máximo organismo de gobierno universitario.";
+
+}
+
+
+if(
+pregunta.includes("claustro menor")
+){
+
+return "El Claustro Menor es un organismo académico y administrativo de la universidad.";
+
+}
+
+
+if(
+pregunta.includes("consejo universitario")
+){
+
+return "El Consejo Universitario es el organismo ejecutivo de dirección de la UASD.";
+
+}
+
+
+if(
+pregunta.includes("rector")
+){
+
+return "El Rector es la máxima autoridad ejecutiva de la universidad.";
+
+}
+
+
+if(
+pregunta.includes("estudiantes")
+){
+
+return "Los estudiantes tienen derecho a educación de calidad y deben respetar las normas universitarias.";
+
+}
+
+
+if(
+pregunta.includes("docentes")
+){
+
+return "Los docentes tienen derecho a libertad académica y deben cumplir funciones académicas y éticas.";
+
+}
+
+
+if(
+pregunta.includes("investigación")
+){
+
+return "La investigación es una función fundamental de la UASD.";
+
+}
+
+
+if(
+pregunta.includes("bienestar")
+){
+
+return "El bienestar estudiantil busca mejorar la calidad de vida de los estudiantes.";
+
+}
+
+
+if(
+pregunta.includes("extensión")
+){
+
+return "La extensión universitaria conecta la universidad con la sociedad.";
+
+}
+
+
+// RESPUESTA DEFAULT
+
+return "No encontré información suficiente en el Estatuto Orgánico de la UASD sobre esa pregunta.";
 
 }
 
@@ -160,7 +179,8 @@ mensaje.innerText = texto;
 chatBox.appendChild(mensaje);
 
 
-// SCROLL AUTOMATICO
+// AUTO SCROLL
+
 chatBox.scrollTop = chatBox.scrollHeight;
 
 return mensaje;
