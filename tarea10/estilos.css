@@ -338,5 +338,49 @@ header{
 font-size:20px;
 
 }
+/* BOTON LIMPIAR */
 
+.acciones{
+
+padding:15px;
+
+display:flex;
+
+justify-content:flex-end;
+
+background:rgba(255,255,255,0.03);
+
+border-top:1px solid rgba(255,255,255,0.08);
+
+}
+
+
+.acciones button{
+
+padding:10px 15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#ef4444;
+
+color:white;
+
+cursor:pointer;
+
+font-size:14px;
+
+transition:.3s;
+
+}
+
+
+.acciones button:hover{
+
+transform:scale(1.05);
+
+background:#dc2626;
+
+}
 }
