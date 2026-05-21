@@ -16,7 +16,7 @@ agregarMensaje(texto,"user");
 input.value="";
 
 
-// LOADING
+// MENSAJE CARGANDO
 let loading = agregarMensaje(
 "Pensando...",
 "bot"
@@ -28,7 +28,7 @@ try{
 let prompt = `
 Eres un chatbot especializado en el Estatuto Orgánico de la UASD.
 
-Responde solo preguntas relacionadas con:
+Responde únicamente preguntas relacionadas con:
 - estudiantes
 - docentes
 - rector
@@ -46,10 +46,10 @@ ${texto}
 `;
 
 
-// FETCH GEMINI
+// PETICION A GEMINI
 let response = await fetch(
 
-`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
 
 {
 method:"POST",
@@ -79,7 +79,7 @@ text:prompt
 );
 
 
-// JSON
+// RESPUESTA JSON
 let data = await response.json();
 
 console.log(data);
@@ -89,7 +89,7 @@ console.log(data);
 loading.remove();
 
 
-// VALIDAR ERROR API
+// VALIDAR ERRORES
 if(data.error){
 
 agregarMensaje(
@@ -160,7 +160,7 @@ mensaje.innerText = texto;
 chatBox.appendChild(mensaje);
 
 
-// SCROLL AUTO
+// AUTO SCROLL
 chatBox.scrollTop = chatBox.scrollHeight;
 
 return mensaje;
