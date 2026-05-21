@@ -1,4 +1,4 @@
-const API_KEY = "AIzaSyAIuHp7jBpmBYfKnRa7d5rEY74cMIyUIak";
+const API_KEY = "AIzaSyC3rfB7WoEGVRmSwXmkQD4PKA3XyMGF-jY";
 
 
 async function enviarPregunta(){
