@@ -1,4 +1,4 @@
-const API_KEY = "AIzaSyAIuHp7jBpmBYfKnRa7d5rEY74cMIyUIak";
+const API_KEY = "TU_NUEVA_API_KEY";
 
 
 async function enviarPregunta(){
@@ -28,17 +28,25 @@ try{
 let prompt = `
 Eres un chatbot especializado en el Estatuto Orgánico de la UASD.
 
-Responde de forma clara y breve.
+Responde solo preguntas relacionadas con:
+- estudiantes
+- docentes
+- rector
+- facultades
+- estatuto
+- misión
+- visión
+- consejos universitarios
 
-Si la pregunta no está relacionada con la UASD responde:
-"Solo puedo responder preguntas sobre el Estatuto Orgánico de la UASD."
+Si la pregunta no pertenece al tema responde:
+"Solo puedo responder preguntas relacionadas con la UASD."
 
 Pregunta:
 ${texto}
 `;
 
 
-// PETICION
+// FETCH GEMINI
 let response = await fetch(
 
 `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
@@ -74,13 +82,36 @@ text:prompt
 // JSON
 let data = await response.json();
 
+console.log(data);
+
 
 // ELIMINAR LOADING
 loading.remove();
 
 
+// VALIDAR ERROR API
+if(data.error){
+
+agregarMensaje(
+"Error IA: " + data.error.message,
+"bot"
+);
+
+return;
+
+}
+
+
 // VALIDAR RESPUESTA
-if(data.candidates){
+if(
+
+data.candidates &&
+data.candidates.length > 0 &&
+data.candidates[0].content &&
+data.candidates[0].content.parts &&
+data.candidates[0].content.parts.length > 0
+
+){
 
 let respuesta =
 data.candidates[0].content.parts[0].text;
@@ -90,11 +121,9 @@ agregarMensaje(respuesta,"bot");
 }else{
 
 agregarMensaje(
-"No pude generar una respuesta.",
+"No pude generar respuesta.",
 "bot"
 );
-
-console.log(data);
 
 }
 
@@ -104,7 +133,7 @@ console.log(data);
 loading.remove();
 
 agregarMensaje(
-"Error conectando con la IA.",
+"Error conectando con Gemini.",
 "bot"
 );
 
@@ -130,6 +159,8 @@ mensaje.innerText = texto;
 
 chatBox.appendChild(mensaje);
 
+
+// SCROLL AUTO
 chatBox.scrollTop = chatBox.scrollHeight;
 
 return mensaje;
