@@ -1,13 +1,106 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Tarea 10</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chatbot UASD</title>
+
+<link rel="stylesheet" href="estilos.css">
+
+<!-- ICONOS -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
+
 <body>
 
-    <h1>Tarea 10</h1>
-    <p>Esta página corresponde a la 10ma tarea del curso.</p>
+<!-- HEADER -->
+
+<header>
+
+<div class="logo">
+
+<i class="fa-solid fa-robot"></i>
+
+Chatbot Estatuto UASD
+
+</div>
+
+</header>
+
+
+<!-- CONTENEDOR PRINCIPAL -->
+
+<div class="chat-container">
+
+<!-- ÁREA CHAT -->
+
+<div class="chat-box" id="chatBox">
+
+<div class="mensaje bot">
+
+Hola 👋 Soy el asistente virtual del Estatuto Orgánico de la UASD.
+¿En qué puedo ayudarte?
+
+</div>
+
+</div>
+
+
+<!-- PREGUNTAS SUGERIDAS -->
+
+<div class="preguntas">
+
+<button onclick="preguntaSugerida(this)">
+¿Qué es la UASD?
+</button>
+
+<button onclick="preguntaSugerida(this)">
+¿Cuál es la misión de la UASD?
+</button>
+
+<button onclick="preguntaSugerida(this)">
+¿Qué es el Claustro Mayor?
+</button>
+
+<button onclick="preguntaSugerida(this)">
+¿Cuáles son los derechos de los estudiantes?
+</button>
+
+<button onclick="preguntaSugerida(this)">
+¿Qué establece el Estatuto sobre los docentes?
+</button>
+
+</div>
+
+
+<!-- INPUT -->
+
+<div class="input-area">
+
+<input
+type="text"
+id="pregunta"
+placeholder="Escribe tu pregunta..."
+>
+
+<button onclick="enviarPregunta()">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+</button>
+
+</div>
+
+</div>
+
+
+<script src="script.js"></script>
 
 </body>
+
 </html>
