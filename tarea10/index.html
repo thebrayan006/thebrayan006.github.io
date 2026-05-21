@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Chatbot UASD IA</title>
+<title>Chatbot UASD Inteligente</title>
 
 <link rel="stylesheet" href="estilos.css">
 
@@ -17,66 +17,74 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <body>
 
+<div class="container">
+
 <header>
 
-<div class="logo">
+<h1>
 
-<i class="fa-solid fa-graduation-cap"></i>
+<i class="fa-solid fa-robot"></i>
 
-Chatbot Estatuto UASD
+Chatbot UASD
 
-</div>
+</h1>
+
+<p>
+
+Consulta el Estatuto Orgánico de la UASD usando Inteligencia Artificial
+
+</p>
 
 </header>
 
 
-<div class="chat-container">
-
-<div class="chat-box" id="chatBox">
-
-<div class="mensaje bot">
-
-Hola 👋 Soy el asistente inteligente del Estatuto Orgánico de la UASD.
-Puedes preguntarme sobre estudiantes, docentes, rectoría, facultades y más.
-
-</div>
-
-</div>
-
-<div class="acciones">
-
-<button onclick="limpiarChat()">
-
-<i class="fa-solid fa-trash"></i>
-
-Limpiar Chat
-
-</button>
-
-</div>
 <!-- PREGUNTAS SUGERIDAS -->
 
 <div class="preguntas">
 
-<button onclick="preguntaSugerida(this)">
+<button onclick="enviarPregunta('¿Qué es la UASD?')">
+
 ¿Qué es la UASD?
+
 </button>
 
-<button onclick="preguntaSugerida(this)">
-¿Cuáles son los derechos de los estudiantes?
+<button onclick="enviarPregunta('¿Cuál es la misión de la UASD?')">
+
+Misión UASD
+
 </button>
 
-<button onclick="preguntaSugerida(this)">
-¿Qué es el Claustro Mayor?
+<button onclick="enviarPregunta('¿Qué es el Claustro Mayor?')">
+
+Claustro Mayor
+
 </button>
 
-<button onclick="preguntaSugerida(this)">
-¿Cuáles son las funciones del Rector?
+<button onclick="enviarPregunta('¿Cuáles son las funciones del Rector?')">
+
+Funciones del Rector
+
 </button>
 
-<button onclick="preguntaSugerida(this)">
-¿Qué establece el Estatuto sobre los docentes?
+<button onclick="enviarPregunta('¿Qué establece el Estatuto sobre los estudiantes?')">
+
+Estudiantes
+
 </button>
+
+</div>
+
+
+<!-- CHAT -->
+
+<div id="chat-box" class="chat-box">
+
+<div class="mensaje bot">
+
+Hola 👋 Soy el asistente inteligente de la UASD.
+Hazme preguntas sobre el Estatuto Orgánico.
+
+</div>
 
 </div>
 
@@ -85,15 +93,9 @@ Limpiar Chat
 
 <div class="input-area">
 
-  <button onclick="limpiarChat()">
-
-Limpiar Chat
-
-</button>
-
 <input
 type="text"
-id="pregunta"
+id="user-input"
 placeholder="Escribe tu pregunta..."
 >
 
@@ -103,9 +105,16 @@ placeholder="Escribe tu pregunta..."
 
 </button>
 
+<button onclick="limpiarChat()">
+
+<i class="fa-solid fa-trash"></i>
+
+</button>
+
 </div>
 
 </div>
+
 
 <script src="script.js"></script>
 
