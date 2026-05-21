@@ -1,8 +1,5 @@
-// API KEY GEMINI
-const API_KEY = "AIzaSyB_t_S8RFqYzeIUfQyPNMzBIlrkdrespkY";
+const API_KEY = "AIzaSyAIuHp7jBpmBYfKnRa7d5rEY74cMIyUIak";
 
-
-// ENVIAR PREGUNTA
 
 async function enviarPregunta(){
 
@@ -19,7 +16,7 @@ agregarMensaje(texto,"user");
 input.value="";
 
 
-// MENSAJE TEMPORAL
+// LOADING
 let loading = agregarMensaje(
 "Pensando...",
 "bot"
@@ -28,37 +25,23 @@ let loading = agregarMensaje(
 
 try{
 
-// PROMPT DEL SISTEMA
 let prompt = `
-Eres un chatbot especializado EXCLUSIVAMENTE en el Estatuto Orgánico de la Universidad Autónoma de Santo Domingo (UASD).
+Eres un chatbot especializado en el Estatuto Orgánico de la UASD.
 
-Responde únicamente preguntas relacionadas con:
-- misión
-- visión
-- facultades
-- estudiantes
-- docentes
-- organismos de gobierno
-- rector
-- consejos universitarios
-- derechos
-- deberes
-- investigación
-- postgrado
-- bienestar universitario
+Responde de forma clara y breve.
 
-Si la pregunta NO está relacionada con la UASD o el Estatuto Orgánico, responde:
-"Solo puedo responder preguntas relacionadas con el Estatuto Orgánico de la UASD."
+Si la pregunta no está relacionada con la UASD responde:
+"Solo puedo responder preguntas sobre el Estatuto Orgánico de la UASD."
 
-Pregunta del usuario:
+Pregunta:
 ${texto}
 `;
 
 
-// PETICION A GEMINI
+// PETICION
 let response = await fetch(
 
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
 
 {
 method:"POST",
@@ -73,11 +56,9 @@ contents:[
 
 {
 parts:[
-
 {
 text:prompt
 }
-
 ]
 }
 
@@ -90,21 +71,32 @@ text:prompt
 );
 
 
-// RESPUESTA JSON
+// JSON
 let data = await response.json();
 
 
-// EXTRAER RESPUESTA
-let respuestaIA =
-data.candidates[0].content.parts[0].text;
-
-
-// ELIMINAR "Pensando..."
+// ELIMINAR LOADING
 loading.remove();
 
 
-// MOSTRAR RESPUESTA
-agregarMensaje(respuestaIA,"bot");
+// VALIDAR RESPUESTA
+if(data.candidates){
+
+let respuesta =
+data.candidates[0].content.parts[0].text;
+
+agregarMensaje(respuesta,"bot");
+
+}else{
+
+agregarMensaje(
+"No pude generar una respuesta.",
+"bot"
+);
+
+console.log(data);
+
+}
 
 
 }catch(error){
@@ -112,7 +104,7 @@ agregarMensaje(respuestaIA,"bot");
 loading.remove();
 
 agregarMensaje(
-"Error al conectar con la IA.",
+"Error conectando con la IA.",
 "bot"
 );
 
@@ -138,8 +130,6 @@ mensaje.innerText = texto;
 
 chatBox.appendChild(mensaje);
 
-
-// AUTO SCROLL
 chatBox.scrollTop = chatBox.scrollHeight;
 
 return mensaje;
@@ -151,7 +141,8 @@ return mensaje;
 
 function preguntaSugerida(boton){
 
-document.getElementById("pregunta").value = boton.innerText;
+document.getElementById("pregunta").value =
+boton.innerText;
 
 enviarPregunta();
 
