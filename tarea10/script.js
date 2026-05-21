@@ -1,282 +1,286 @@
-// BASE DE CONOCIMIENTO
+const API_KEY = "AIzaSyBDHjpa_Nb9lVHPFuSf7ycMfLM2uxlnE-U";
 
-const conocimiento = [
+const chatBox =
+document.getElementById("chat-box");
 
-{
-keywords:["uasd","universidad"],
-respuesta:"La UASD es una institución pública y autónoma de educación superior de la República Dominicana."
-},
-
-{
-keywords:["misión","mision"],
-respuesta:"La misión de la UASD es formar profesionales, investigadores y técnicos con valores éticos y capacidad crítica."
-},
-
-{
-keywords:["visión","vision"],
-respuesta:"La visión de la UASD es ser una universidad moderna, innovadora y comprometida con el desarrollo nacional."
-},
-
-{
-keywords:["claustro mayor"],
-respuesta:"El Claustro Mayor es el máximo organismo de gobierno universitario."
-},
-
-{
-keywords:["claustro menor"],
-respuesta:"El Claustro Menor es un organismo académico y administrativo de la universidad."
-},
-
-{
-keywords:["consejo universitario"],
-respuesta:"El Consejo Universitario es el organismo ejecutivo de dirección de la UASD."
-},
-
-{
-keywords:["rector","rectoría","maxima autoridad"],
-respuesta:"El Rector es la máxima autoridad ejecutiva de la universidad."
-},
-
-{
-keywords:["estudiantes","alumnos"],
-respuesta:"Los estudiantes tienen derecho a educación de calidad y participación universitaria."
-},
-
-{
-keywords:["docentes","profesores"],
-respuesta:"Los docentes tienen derecho a libertad académica y deben cumplir funciones éticas y académicas."
-},
-
-{
-keywords:["investigación","investigacion"],
-respuesta:"La investigación es una función fundamental de la UASD."
-},
-
-{
-keywords:["bienestar"],
-respuesta:"El bienestar estudiantil busca mejorar la calidad de vida de los estudiantes."
-},
-
-{
-keywords:["extensión","extension"],
-respuesta:"La extensión universitaria conecta la universidad con la sociedad."
-},
-
-{
-keywords:["facultades","facultad"],
-respuesta:"Las facultades son unidades académicas encargadas de coordinar carreras y programas."
-}
-
-];
+const userInput =
+document.getElementById("user-input");
 
 
-// CARGAR HISTORIAL
-
-window.onload = function(){
+// ===============================
+// HISTORIAL
+// ===============================
 
 let historial =
-JSON.parse(localStorage.getItem("chatHistorial")) || [];
+JSON.parse(localStorage.getItem("historialUASD")) || [];
 
-historial.forEach(msg=>{
-
-agregarMensaje(msg.texto,msg.tipo,false);
-
+historial.forEach(msg => {
+agregarMensaje(msg.tipo, msg.texto);
 });
+
+
+// ===============================
+// BASE LOCAL UASD
+// ===============================
+
+const respuestasLocales = {
+
+"que es la uasd":
+"La Universidad Autónoma de Santo Domingo (UASD) es la universidad pública estatal de República Dominicana y la primera universidad del Nuevo Mundo.",
+
+"mision":
+"La misión de la UASD es formar profesionales críticos, éticos y comprometidos con el desarrollo de la sociedad.",
+
+"vision":
+"La UASD busca ser una institución académica líder, innovadora y de excelencia.",
+
+"autonomia":
+"La autonomía universitaria garantiza independencia académica, administrativa y financiera.",
+
+"claustro mayor":
+"El Claustro Mayor es el máximo organismo académico de la UASD.",
+
+"consejo universitario":
+"El Consejo Universitario es el principal organismo ejecutivo y administrativo.",
+
+"rector":
+"El Rector es la máxima autoridad ejecutiva de la Universidad.",
+
+"facultades":
+"Las facultades son estructuras académicas encargadas de coordinar áreas del conocimiento.",
+
+"estudiantes":
+"Los estudiantes tienen derechos y deberes establecidos en el Estatuto Orgánico."
 
 };
 
 
-
-
-// ENVIAR PREGUNTA
-
-function enviarPregunta(){
-
-let input =
-document.getElementById("pregunta");
-
-let texto =
-input.value.trim();
-
-if(texto==="") return;
-
-
-// MENSAJE USER
-agregarMensaje(texto,"user",true);
-
-input.value="";
-
-
-// EFECTO ESCRIBIENDO
-let escribiendo =
-agregarMensaje(
-"Escribiendo respuesta...",
-"bot",
-false
-);
-
-
-setTimeout(()=>{
-
-escribiendo.remove();
-
-let respuesta =
-buscarRespuestaAvanzada(texto);
-
-agregarMensaje(respuesta,"bot",true);
-
-},1200);
-
-}
-
-
-
-
-// BUSQUEDA AVANZADA
-
-function buscarRespuestaAvanzada(pregunta){
-
-pregunta = pregunta.toLowerCase();
-
-let mejorCoincidencia = 0;
-
-let mejorRespuesta =
-"No encontré información suficiente en el Estatuto Orgánico de la UASD sobre esa pregunta.";
-
-
-// ANALISIS INTELIGENTE
-
-conocimiento.forEach(item=>{
-
-let coincidencias = 0;
-
-item.keywords.forEach(keyword=>{
-
-if(
-pregunta.includes(keyword)
-){
-
-coincidencias++;
-
-}
-
-});
-
-
-// MEJOR RESULTADO
-
-if(coincidencias > mejorCoincidencia){
-
-mejorCoincidencia =
-coincidencias;
-
-mejorRespuesta =
-item.respuesta;
-
-}
-
-});
-
-
-return mejorRespuesta;
-
-}
-
-
-
-
+// ===============================
 // AGREGAR MENSAJES
+// ===============================
 
-function agregarMensaje(texto,tipo,guardar=true){
+function agregarMensaje(tipo, texto){
 
-let chatBox =
-document.getElementById("chatBox");
-
-let mensaje =
+const mensaje =
 document.createElement("div");
 
 mensaje.classList.add("mensaje");
-mensaje.classList.add(tipo);
 
-mensaje.innerText = texto;
+if(tipo === "usuario"){
+
+mensaje.classList.add("usuario");
+
+}else{
+
+mensaje.classList.add("bot");
+
+}
+
+mensaje.innerHTML = texto;
 
 chatBox.appendChild(mensaje);
-
-
-// AUTO SCROLL
 
 chatBox.scrollTop =
 chatBox.scrollHeight;
 
 
-// GUARDAR HISTORIAL
+// guardar historial
 
-if(guardar){
-
-let historial =
-JSON.parse(localStorage.getItem("chatHistorial")) || [];
-
-historial.push({
-
-texto:texto,
-tipo:tipo
-
-});
+historial.push({tipo,texto});
 
 localStorage.setItem(
-"chatHistorial",
+"historialUASD",
 JSON.stringify(historial)
 );
 
 }
 
 
-return mensaje;
+// ===============================
+// RESPUESTA LOCAL
+// ===============================
+
+function respuestaLocal(texto){
+
+texto = texto.toLowerCase();
+
+for(let clave in respuestasLocales){
+
+if(texto.includes(clave)){
+
+return respuestasLocales[clave];
+
+}
+
+}
+
+return "No encontré información exacta en el Estatuto Orgánico de la UASD.";
 
 }
 
 
+// ===============================
+// ENVIAR PREGUNTA
+// ===============================
+
+async function enviarPregunta(textoManual = null){
+
+const pregunta =
+textoManual || userInput.value.trim();
+
+if(pregunta === "") return;
+
+agregarMensaje("usuario", pregunta);
+
+userInput.value = "";
 
 
-// PREGUNTAS SUGERIDAS
+// indicador escribiendo
 
-function preguntaSugerida(boton){
+const typing =
+document.createElement("div");
 
-document.getElementById("pregunta").value =
-boton.innerText;
+typing.classList.add("mensaje","bot");
+
+typing.id = "typing";
+
+typing.innerHTML = "Escribiendo...";
+
+chatBox.appendChild(typing);
+
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
+
+try{
+
+const response = await fetch(
+
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
+
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body: JSON.stringify({
+
+contents:[
+
+{
+parts:[
+
+{
+text:
+
+`
+Eres un chatbot oficial de la UASD.
+
+Responde SOLO temas relacionados
+con el Estatuto Orgánico de la UASD.
+
+Si la pregunta no está relacionada,
+indica que solo puedes responder
+temas institucionales de la UASD.
+
+Pregunta:
+${pregunta}
+`
+
+}
+
+]
+
+}
+
+]
+
+})
+
+}
+
+);
+
+
+const data =
+await response.json();
+
+console.log(data);
+
+
+// eliminar escribiendo
+
+document.getElementById("typing")?.remove();
+
+
+// validar respuesta
+
+if(
+data.candidates &&
+data.candidates.length > 0
+){
+
+const respuestaIA =
+data.candidates[0]
+.content.parts[0].text;
+
+agregarMensaje("bot", respuestaIA);
+
+}else{
+
+throw new Error("Sin respuesta IA");
+
+}
+
+
+}catch(error){
+
+console.error(error);
+
+document.getElementById("typing")?.remove();
+
+
+// fallback local
+
+const local =
+respuestaLocal(pregunta);
+
+agregarMensaje("bot", local);
+
+}
+
+}
+
+
+// ===============================
+// ENTER
+// ===============================
+
+userInput.addEventListener(
+"keypress",
+function(e){
+
+if(e.key === "Enter"){
 
 enviarPregunta();
 
 }
 
-
-
-
-// ENTER PARA ENVIAR
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-document.getElementById("pregunta")
-.addEventListener("keypress",function(e){
-
-if(e.key==="Enter"){
-
-enviarPregunta();
-
 }
-
-});
-
-});
+);
 
 
-
-
-// LIMPIAR CHAT
+// ===============================
+// LIMPIAR HISTORIAL
+// ===============================
 
 function limpiarChat(){
 
-localStorage.removeItem("chatHistorial");
+localStorage.removeItem(
+"historialUASD"
+);
 
 location.reload();
 
