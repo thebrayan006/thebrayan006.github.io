@@ -4,7 +4,6 @@ document.getElementById("chat-box");
 const userInput =
 document.getElementById("user-input");
 
-
 // ===============================
 // HISTORIAL
 // ===============================
@@ -15,7 +14,6 @@ JSON.parse(localStorage.getItem("historialUASD")) || [];
 historial.forEach(msg => {
 agregarMensaje(msg.tipo, msg.texto, false);
 });
-
 
 // ===============================
 // BASE DE CONOCIMIENTO UASD
@@ -112,7 +110,6 @@ const respuestasLocales = {
 
 };
 
-
 // ===============================
 // AGREGAR MENSAJE
 // ===============================
@@ -153,7 +150,6 @@ JSON.stringify(historial)
 
 }
 
-
 // ===============================
 // NORMALIZAR TEXTO
 // ===============================
@@ -168,9 +164,8 @@ return texto
 
 }
 
-
 // ===============================
-// BUSQUEDA
+// RESPUESTA LOCAL
 // ===============================
 
 function respuestaLocal(texto){
@@ -194,12 +189,11 @@ return "Lo siento, no encontré información específica sobre esa consulta dent
 
 }
 
-
 // ===============================
 // ENVIAR PREGUNTA
 // ===============================
 
-function enviarPregunta(textoManual = null){
+async function enviarPregunta(textoManual = null){
 
 const pregunta =
 textoManual || userInput.value.trim();
@@ -228,24 +222,85 @@ chatBox.appendChild(typing);
 chatBox.scrollTop =
 chatBox.scrollHeight;
 
-setTimeout(() => {
+try{
+
+const response = await fetch(
+"/api/chat",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+pregunta
+})
+
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"Error backend"
+);
+
+}
+
+const data =
+await response.json();
+
+document
+.getElementById("typing")
+?.remove();
+
+if(
+data.candidates &&
+data.candidates.length > 0
+){
+
+const respuestaIA =
+data.candidates[0]
+.content.parts[0].text;
+
+agregarMensaje(
+"bot",
+respuestaIA
+);
+
+}else{
+
+throw new Error(
+"Sin respuesta IA"
+);
+
+}
+
+}catch(error){
+
+console.log(
+"Usando respuesta local",
+error
+);
 
 document
 .getElementById("typing")
 ?.remove();
 
 const respuesta =
-respuestaLocal(pregunta);
+respuestaLocal(
+pregunta
+);
 
 agregarMensaje(
 "bot",
 respuesta
 );
 
-},800);
-
 }
 
+}
 
 // ===============================
 // ENTER
@@ -263,7 +318,6 @@ enviarPregunta();
 
 }
 );
-
 
 // ===============================
 // LIMPIAR CHAT
